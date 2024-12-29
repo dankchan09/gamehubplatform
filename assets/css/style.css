@@ -1,0 +1,144 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html{
+    font-family: Arial, Helvetica, sans-serif
+}
+
+#main{
+
+}
+
+#header{
+    background-color: black;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 46px;
+}
+
+#header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #6DD000;
+    margin-right: 20px;
+}
+#header .flash-deal {
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-right: 20px;
+}
+#nav{
+    display: inline-block;
+}
+#nav .subnav{
+    display: none;
+    min-width: 160px;
+    position: absolute;
+    background-color: #fff;
+    top: 100%;
+    right: 0; 
+    white-space: nowrap; /* Ngăn xuống dòng */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#nav, .subnav {
+    list-style-type: none;
+}
+#nav > li{
+    display: inline-block;
+}
+#nav li {
+    position: relative;
+}
+#nav > li > a{
+    color: #fff;
+}
+#nav li a{
+    text-decoration: none;
+    padding: 0 5px;
+    display: block;
+    line-height: 46px;
+}
+#nav li:hover .subnav{
+    display: block;
+}
+#nav > li:hover > a,
+#nav .subnav li:hover a{
+    color: #333;
+    background-color: #6DD000;
+}
+#nav .subnav a{
+    color: #333;
+    padding: 0 12px;
+    line-height: 38px;
+}
+#nav .nav-arrow-down{
+    font-size: 13px;
+}
+
+#header .search-btn{
+    float: right;
+    padding: 0 21px;
+}
+#header .search-btn:hover{
+    cursor: pointer;
+    background-color: #6DD000;
+}
+#header .search-icon{
+    color: #fff;
+    font-size: 20px;
+    line-height: 46px;
+}
+
+/* Đổi màu biểu tượng khi hover vào chính nó */
+#nav li:hover > a > .ti-user,
+#nav li:hover > a > .ti-arrow-circle-down {
+    color: #fff;
+}
+/* Giữ màu biểu tượng khi rê chuột xuống menu con */
+#nav li:hover .subnav,
+#nav li:hover > a > .ti-user,
+#nav li:hover > a > .ti-arrow-circle-down {
+    color: #fff; 
+}
+
+#banner {
+    min-height: 500px;
+    background-color: #333;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px;
+}
+
+#banner .card {
+    background-color: #222;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    flex: 1 1 300px;
+    max-width: 400px;
+}
+
+#banner .card img {
+    width: 100%;
+    display: block;
+}
+
+#banner .card h3 {
+    padding: 10px;
+    font-size: 18px;
+}
+
+#content
+#footer
