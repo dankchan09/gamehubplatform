@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameHub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Include Header -->
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="hero">
+            <h1>Welcome to GameHub</h1>
+            <p>Explore and play mini-games, or register for more features!</p>
+            <div class="buttons">
+                <a href="guest.html" class="btn">Play Mini-Games</a>
+                <a href="register.html" class="btn">Register</a>
+                <a href="login.html" class="btn">Login</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include Footer -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Load header and footer
+        fetch('header.html').then(res => res.text()).then(data => {
+            document.getElementById('header-placeholder').innerHTML = data;
+        });
+
+        fetch('footer.html').then(res => res.text()).then(data => {
+            document.getElementById('footer-placeholder').innerHTML = data;
+        });
+    </script>
+</body>
+</html>

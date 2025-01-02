@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - GameHub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Include Header -->
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="form-section">
+            <h1>Login</h1>
+            <form action="login_process.html" method="POST" onsubmit="return validateLogin()">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="submit" class="btn">Login</button>
+            </form>
+            <p id="error-message" style="color: red; display: none;">Account does not exist. Please register first.</p>
+        </section>
+    </main>
+
+    <!-- Include Footer -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Load header and footer
+        fetch('header.html').then(res => res.text()).then(data => {
+            document.getElementById('header-placeholder').innerHTML = data;
+        });
+
+        fetch('footer.html').then(res => res.text()).then(data => {
+            document.getElementById('footer-placeholder').innerHTML = data;
+        });
+
+        // Validate login
+        function validateLogin() {
+            // Mock validation: show error message if username is "guest"
+            const username = document.getElementById('username').value;
+            if (username === "guest") {
+                document.getElementById('error-message').style.display = 'block';
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

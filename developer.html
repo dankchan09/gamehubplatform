@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer - GameHub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Include Header -->
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="role-section">
+            <h1>Developer Dashboard</h1>
+
+            <div class="role-actions">
+                <h2>Your Options:</h2>
+                <ul>
+                    <li>Use free assets provided by designers.</li>
+                    <li>Purchase assets from designers.</li>
+                    <li>Register game information and upload game files.</li>
+                    <li>Request APIs for leaderboard systems.</li>
+                    <li>Request APIs, SDKs, and documentation for reward systems.</li>
+                    <li>Request APIs, SDKs, and documentation for in-game payments.</li>
+                </ul>
+
+                <button class="btn">Register Game</button>
+                <button class="btn">Request API</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include Footer -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Load header and footer
+        fetch('header.html').then(res => res.text()).then(data => {
+            document.getElementById('header-placeholder').innerHTML = data;
+        });
+
+        fetch('footer.html').then(res => res.text()).then(data => {
+            document.getElementById('footer-placeholder').innerHTML = data;
+        });
+    </script>
+</body>
+</html>

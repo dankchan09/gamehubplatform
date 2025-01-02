@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphic Designer - GameHub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Include Header -->
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="role-section">
+            <h1>Graphic Designer Dashboard</h1>
+
+            <div class="role-actions">
+                <h2>Your Options:</h2>
+                <ul>
+                    <li>Declare your account and payment information.</li>
+                    <li>Upload free game assets for developers.</li>
+                    <li>Register and upload paid assets for sale.</li>
+                </ul>
+
+                <button class="btn">Upload Free Assets</button>
+                <button class="btn">Register Paid Assets</button>
+            </div>
+        </section>
+    </main>
+    <section class="highlight-section">
+        <h2>Featured Game Assets</h2>
+        <div class="image-gallery">
+            <div class="gallery-item">
+                <img src="assets/asset1.jpg" alt="Asset 1">
+                <p>High-quality 2D Characters</p>
+            </div>
+            <div class="gallery-item">
+                <img src="assets/asset2.jpg" alt="Asset 2">
+                <p>Creative Backgrounds</p>
+            </div>
+            <div class="gallery-item">
+                <img src="assets/asset3.jpg" alt="Asset 3">
+                <p>Customizable UI Elements</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Include Footer -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Load header and footer
+        fetch('header.html').then(res => res.text()).then(data => {
+            document.getElementById('header-placeholder').innerHTML = data;
+        });
+
+        fetch('footer.html').then(res => res.text()).then(data => {
+            document.getElementById('footer-placeholder').innerHTML = data;
+        });
+    </script>
+</body>
+</html>

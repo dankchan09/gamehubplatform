@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Dashboard - GameHub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Include Header -->
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="role-section">
+            <h1>Player Dashboard</h1>
+
+            <div class="role-actions">
+                <h2>Your Options:</h2>
+                <ul>
+                    <li>Participate in games and earn points.</li>
+                    <li>View leaderboards for each game.</li>
+                    <li>Review game quality and provide feedback.</li>
+                    <li>Redeem points for rewards where applicable.</li>
+                </ul>
+
+                <button class="btn">View Leaderboard</button>
+                <button class="btn">Redeem Points</button>
+            </div>
+
+            <section class="highlight-section">
+                <h2>Featured Games</h2>
+                <div class="image-gallery">
+                    <div class="gallery-item">
+                        <img src="assets/game1.jpg" alt="Game 1">
+                        <p>Adventure Quest</p>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="assets/game2.jpg" alt="Game 2">
+                        <p>Puzzle Mania</p>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="assets/game3.jpg" alt="Game 3">
+                        <p>Strategy Legends</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="highlight-section">
+                <h2>Game Highlights</h2>
+                <div class="image-gallery">
+                    <div class="gallery-item">
+                        <img src="assets/highlight1.jpg" alt="Highlight 1">
+                        <p>Top-rated by Players</p>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="assets/highlight2.jpg" alt="Highlight 2">
+                        <p>Exciting New Challenges</p>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="assets/highlight3.jpg" alt="Highlight 3">
+                        <p>Exclusive Rewards</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <!-- Include Footer -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Load header and footer
+        fetch('header.html').then(res => res.text()).then(data => {
+            document.getElementById('header-placeholder').innerHTML = data;
+        });
+
+        fetch('footer.html').then(res => res.text()).then(data => {
+            document.getElementById('footer-placeholder').innerHTML = data;
+        });
+    </script>
+
+    <style>
+        .highlight-section {
+            margin-top: 30px;
+        }
+
+        .image-gallery {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .gallery-item {
+            text-align: center;
+        }
+
+        .gallery-item img {
+            max-width: 200px;
+            border-radius: 10px;
+        }
+
+        .gallery-item p {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</body>
+</html>

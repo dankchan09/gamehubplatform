@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest - GameHub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Include Header -->
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="games-section">
+            <h1>Mini-Games</h1>
+            <p>Play these games without registering an account!</p>
+
+            <div class="game-list">
+                <div class="game-item">
+                    <h2>Game 1</h2>
+                    <button class="btn">Play</button>
+                </div>
+                <div class="game-item">
+                    <h2>Game 2</h2>
+                    <button class="btn">Play</button>
+                </div>
+                <div class="game-item">
+                    <h2>Game 3</h2>
+                    <button class="btn">Play</button>
+                </div>
+                <div class="game-item">
+                    <h2>Game 4</h2>
+                    <button class="btn">Play</button>
+                </div>
+            </div>
+
+            <p>Want to explore more games? <a href="register.html">Register</a> or <a href="login.html">Login</a> to unlock full access!</p>
+
+            <div class="role-links">
+                <h3>Explore Roles:</h3>
+                <ul>
+                    <li><a href="player.html">Player</a></li>
+                    <li><a href="developer.html">Developer</a></li>
+                    <li><a href="designer.html">Graphic Designer</a></li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include Footer -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Load header and footer
+        fetch('header.html').then(res => res.text()).then(data => {
+            document.getElementById('header-placeholder').innerHTML = data;
+        });
+
+        fetch('footer.html').then(res => res.text()).then(data => {
+            document.getElementById('footer-placeholder').innerHTML = data;
+        });
+    </script>
+</body>
+</html>
