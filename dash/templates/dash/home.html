@@ -3,89 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameHub Layout</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        header {
-            background-color: #333;
-            color: white;
-            padding: 15px;
-            text-align: center;
-        }
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            padding: 20px;
-            justify-content: center;
-        }
-        .card {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            padding: 15px;
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        .card:hover {
-            transform: scale(1.05);
-        }
-        .card img {
-            max-width: 100%;
-            border-radius: 10px;
-        }
-        .card h3 {
-            margin: 10px 0;
-            color: #333;
-        }
-        .card button {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .card button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <title>GameHub</title>
+    <!-- Load thư viện static -->
+    {% load static %}
+    <!-- Liên kết đến file CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <header>
-        <h1>GameHub</h1>
-    </header>
-    <div class="container">
-        <!-- Card 1 -->
-        <div class="card">
-            <img src="static/home/img/liên quân.jpg" alt="Game 1">
-            <h3>Game Title 1</h3>
-            <p>Short description about the game.</p>
-            <button onclick="alert('Play Game 1')">Play Now</button>
-        </div>
-        <!-- Card 2 -->
-        <div class="card">
-            <img src="static/home/img/liên minh.jpg" alt="Game 2">
-            <h3>Game Title 2</h3>
-            <p>Short description about the game.</p>
-            <button onclick="alert('Play Game 2')">Play Now</button>
-        </div>
-        <!-- Card 3 -->
-        <div class="card">
-            <img src="static/home/img/pubg.jpg" alt="Game 3">
-            <h3>Game Title 3</h3>
-            <p>Short description about the game.</p>
-            <button onclick="alert('Play Game 3')">Play Now</button>
-        </div>
-        <!-- Add more cards as needed -->
-    </div>
+    <!-- Include Header -->
+    {% include 'dash/header.html' %}
+
+    <main>
+        <section class="hero">
+            <h1>Welcome to GameHub</h1>
+            <p>Explore and play mini-games, or register for more features!</p>
+            <div class="buttons">
+                <a href="{% url 'guest' %}" class="btn">Play Mini-Games</a>
+                <a href="{% url 'register' %}" class="btn">Register</a>
+                <a href="{% url 'login' %}" class="btn">Login</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include Footer -->
+    {% include 'dash/footer.html' %}
 </body>
 </html>
