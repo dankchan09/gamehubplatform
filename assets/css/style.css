@@ -13,28 +13,39 @@ html{
 }
 
 #header{
+    top:0;
+    left: 0;
+    right: 0;
+    height: 46px;
+    position: fixed;
     background-color: black;
-    padding: 10px 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 46px;
+    z-index: 1;
+    text-transform: uppercase;
 }
 
 #header .logo {
     font-size: 24px;
     font-weight: bold;
     color: #6DD000;
-    margin-right: 20px;
+    padding: 0 20px;
 }
-#header .flash-deal {
-    background-color: red;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 14px;
-    margin-right: 20px;
+#header .search-btn{
+    float: right;
+    padding: 0 21px;
 }
+#header .search-btn:hover{
+    cursor: pointer;
+    background-color: #6DD000;
+}
+#header .search-icon{
+    color: #fff;
+    font-size: 20px;
+    line-height: 46px;
+}
+
 #nav{
     display: inline-block;
 }
@@ -63,7 +74,7 @@ html{
 }
 #nav li a{
     text-decoration: none;
-    padding: 0 5px;
+    padding: 0 20px;
     display: block;
     line-height: 46px;
 }
@@ -81,22 +92,9 @@ html{
     line-height: 38px;
 }
 #nav .nav-arrow-down{
-    font-size: 13px;
+    font-size: 20px;
 }
 
-#header .search-btn{
-    float: right;
-    padding: 0 21px;
-}
-#header .search-btn:hover{
-    cursor: pointer;
-    background-color: #6DD000;
-}
-#header .search-icon{
-    color: #fff;
-    font-size: 20px;
-    line-height: 46px;
-}
 
 /* Đổi màu biểu tượng khi hover vào chính nó */
 #nav li:hover > a > .ti-user,
@@ -111,34 +109,138 @@ html{
 }
 
 #banner {
-    min-height: 500px;
+    min-height: 300px;
+    padding-top:5%;
+    gap: 30px;
+    margin-top: 46px;
     background-color: #333;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 20px;
-    gap: 20px;
+    padding-bottom: 50px;
 }
 
-#banner .card {
-    background-color: #222;
+#banner .game-list {
+    background-color: #fff;
+    border: 1px solid #ddd;
     border-radius: 10px;
-    overflow: hidden;
+    width: calc(25% - 30px);
+    width: 300px;
     text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    flex: 1 1 300px;
-    max-width: 400px;
-}
-
-#banner .card img {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    float:left;
+} 
+#banner .game-list img {
     width: 100%;
-    display: block;
-}
+    height: 220px;
+    object-fit: cover;
+    border: 15px solid #fff; /* Viền trắng dày 5px */
+    border-radius: 10px; /* Bo góc viền */
 
-#banner .card h3 {
-    padding: 10px;
+  }
+#banner .game-list h3 {
+    margin: 5px 0 10px;
     font-size: 18px;
+  }
+#banner .game-list button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    border-radius: 4px;
+  }
+#banner .game-list button:hover {
+    background-color: #0056b3;
+  }
+.clear{
+    clear: both;
+  }
+#content{}
+#content .content-section{
+    width: 800px;
+    padding: 64px 0;
+    margin-left: auto;
+    margin-right: auto;
 }
-
-#content
+#content .section-heading{
+    text-align: center;
+    font-size: 30px;
+    letter-spacing: 3px;
+    margin-bottom: 50px;
+}
+.leader-board{
+    background-color: #000;
+}
+.text-white{
+    color:#fff !important;
+}
 #footer
+/* Tổng thể Leader Board */
+#leader-board {
+    padding: 20px;
+    background-color: #222;
+    color: #fff;
+  }
+  
+  #leader-board h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  
+  /* Bố cục từng bảng Leader Board */
+  .game-leader-board {
+    margin-bottom: 30px;
+    background-color: #333;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .game-leader-board h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #6DD000;
+  }
+  
+  /* Bảng nội dung */
+  .game-leader-board table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    color: #fff;
+  }
+  
+  .game-leader-board th, .game-leader-board td {
+    padding: 10px;
+    border: 1px solid #555;
+  }
+  
+  .game-leader-board th {
+    background-color: #444;
+  }
+  
+  .game-leader-board tr:nth-child(odd) {
+    background-color: #3a3a3a;
+  }
+  
+  .game-leader-board tr:nth-child(even) {
+    background-color: #2a2a2a;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .game-leader-board table {
+      font-size: 14px;
+    }
+  }
+/* Định dạng hàng đầu tiên (header) */
+.game-leader-board table thead tr th {
+    color: greenyellow; /* Màu cam đậm */
+    font-weight: bold; /* In đậm */
+  }
