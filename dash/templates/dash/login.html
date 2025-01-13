@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <title>Login - GameHub</title>
+</head>
+<body>
+    <main>
+        <h1>Login to GameHub</h1>
+        
+        <!-- Form đăng nhập -->
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- Trường username -->
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+
+            <!-- Trường password -->
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+            <!-- Hiển thị thông báo lỗi nếu có -->
+            {% if messages %}
+                <div class="error-message active">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Nút đăng nhập -->
+            <button type="submit">Login</button>
+        </form>
+
+        <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+    </main>
+</body>
+</html>

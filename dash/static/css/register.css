@@ -1,0 +1,112 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('/static/img/background.jpg');
+    background-size: cover;
+    background-position: center;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .register-container {
+    max-width: 450px;
+    width: 100%;
+    padding: 40px;
+    border-radius: 15px; /* Viền tròn */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.9); /* Màu nền nhẹ */
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Căn giữa */
+    text-align: center;
+  }
+  
+  .register-title {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .form-label {
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s, background-color 0.3s;
+  }
+  
+  .form-input:focus {
+    border-color: #007bff;
+    background-color: #eef9ff;
+    outline: none;
+  }
+  
+  .form-error {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  
+  .register-button {
+    padding: 12px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .register-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+  
+  .register-button:active {
+    transform: scale(0.98);
+  }
+  
+  .login-link {
+    text-align: center;
+    margin-top: 20px;
+    color: #555;
+  }
+  
+  .login-link a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .login-link a:hover {
+    text-decoration: underline;
+  }
+  
