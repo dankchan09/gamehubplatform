@@ -1,0 +1,166 @@
+/* style.css */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-image: url('/static/img/background.jpg'); /* Đường dẫn đúng tới hình ảnh */
+  background-size: cover;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;  /* Đảm bảo chiều cao trang web luôn đủ */
+}
+
+/* Header with transparency */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(51, 51, 51, 0.8); /* Header với độ trong suốt */
+  padding: 20px 40px;
+  color: white;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.logo img {
+  max-height: 80px;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links li {
+  margin: 0 15px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ffcc00;
+  text-shadow: 0 0 10px rgba(0, 123, 255, 0.7), 0 0 20px rgba(0, 123, 255, 0.7);
+}
+
+/* Header text */
+.header {
+  text-align: center;
+  padding: 30px 0;
+}
+
+.header h1 {
+  font-size: 4rem;
+  margin: 0.5rem;
+  color: #ffcc00;
+}
+
+.header p {
+  font-size: 1.2rem;
+}
+
+/* Game list */
+.game-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  flex-grow: 1;
+}
+
+/* Game item */
+.game-item {
+  text-align: center;
+  width: 250px;
+  background-color: rgba(51, 51, 51, 0.7); /* Thêm độ trong suốt */
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.game-item:hover {
+  transform: translateY(-10px);
+}
+
+.game-item img {
+  width: 100%;
+  border-radius: 10px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.game-item h3 {
+  color: #ffcc00;
+  font-size: 1.5rem;
+  margin-top: 10px;
+}
+
+.game-item p {
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.play-button {
+  margin-top: 15px;
+  background-color: #ff6f61;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.play-button:hover {
+  background-color: #ff3b2f;
+}
+
+/* Footer with transparency */
+footer {
+  width: 100%;
+  background-color: rgba(51, 51, 51, 0.8);
+  color: white;
+  padding: 20px 0;
+  font-size: 0.9rem;
+  text-align: center;
+  position: relative;  /* Đổi từ absolute sang relative */
+  margin-top: auto;  /* Đảm bảo footer nằm ở dưới cùng */
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-content nav ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+}
+
+.footer-content nav ul li {
+  margin: 0 10px;
+}
+
+.footer-content nav ul li a {
+  color: #ffcc00;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-content nav ul li a:hover {
+  color: #ffffff;
+}

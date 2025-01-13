@@ -1,0 +1,87 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('/static/img/background.jpg'); /* Đặt hình nền */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+main {
+    width: 100%;
+    max-width: 400px;
+    background-color: rgba(0, 0, 0, 0.7); /* Nền đen với độ trong suốt */
+    padding: 30px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px); /* Thêm hiệu ứng làm mờ phía sau */
+}
+
+h1 {
+    text-align: center;
+    color: #ffcc00;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+input {
+    margin-bottom: 20px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.1); /* Nền trong suốt cho input */
+    color: white;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus {
+    border-color: #ffcc00;
+    box-shadow: 0 0 8px rgba(255, 204, 0, 0.6);
+    outline: none;
+}
+
+button {
+    padding: 12px;
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #ff3b2f;
+    transform: scale(1.05);
+}
+
+/* Phần hiển thị thông báo lỗi */
+.error-message {
+    color: red;
+    display: none; /* Mặc định ẩn */
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+.error-message.active {
+    display: block; /* Hiển thị khi có lớp active */
+}

@@ -1,0 +1,59 @@
+/* static/css/style.css */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-image: url("{% static 'img/background.jpg' %}");
+  background-size: cover;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+}
+
+/* Header với độ trong suốt */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(51, 51, 51, 0.8); /* Header với độ trong suốt */
+  padding: 20px 40px;
+  color: white;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links li {
+  margin: 0 15px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ffcc00;
+}
+
+/* Footer với độ trong suốt */
+footer {
+  width: 100%;
+  background-color: rgba(51, 51, 51, 0.8);
+  color: white;
+  padding: 20px 0;
+  font-size: 0.9rem;
+  text-align: center;
+  position: relative;
+  margin-top: auto;
+}
