@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <title>Game Hub</title>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'img/logogame.png' %}" alt="GameHub">
+            </a>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="#">Register</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li> <!-- Link đến trang login -->
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Nội dung chính -->
+    <div class="header">
+        <h1>Welcome to Game Hub!</h1>
+        <p>Your portal to fun and easy games</p>
+    </div>
+
+    <div class="game-list">
+        <!-- Game 1 -->
+        <div class="game-item">
+            <img src="{% static 'img/candy.png' %}" alt="Candy Crush">
+            <h3>Candy Crush Saga</h3>
+            <p>A fun and addictive puzzle game!</p>
+            <a href="#" class="play-button">Play</a>
+        </div>
+
+        <!-- Game 2 -->
+        <div class="game-item">
+            <img src="{% static 'img/fireboy and watergirl.jpg' %}" alt="Fireboy and Watergirl">
+            <h3>Fireboy and Watergirl</h3>
+            <p>Collaborative platformer game.</p>
+            <a href="#" class="play-button">Play</a>
+        </div>
+
+        <!-- Game 3 -->
+        <div class="game-item">
+            <img src="{% static 'img/Gold Digger Classic.jpg' %}" alt="Gold Digger Classic">
+            <h3>Gold Digger Classic</h3>
+            <p>Classic arcade mining game.</p>
+            <a href="#" class="play-button">Play</a>
+        </div>
+
+        <!-- Game 4 -->
+        <div class="game-item">
+            <img src="{% static 'img/liên minh.jpg' %}" alt="Liên minh">
+            <h3>Liên minh</h3>
+            <p>Strategic multiplayer game.</p>
+            <a href="#" class="play-button">Play</a>
+        </div>
+
+        <!-- Game 5 -->
+        <div class="game-item">
+            <img src="{% static 'img/dead cells.jpg' %}" alt="Dead Cells">
+            <h3>Dead Cells</h3>
+            <p>Action-packed rogue-like platformer.</p>
+            <a href="#" class="play-button">Play</a>
+        </div>
+
+        <!-- Game 6 -->
+        <div class="game-item">
+            <img src="{% static 'img/ARIDA.png' %}" alt="ARIDA">
+            <h3>ARIDA</h3>
+            <p>A beautiful adventure game!</p>
+            <a href="#" class="play-button">Play</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <nav>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </nav>
+            <p>&copy; 2025 GameHub. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
