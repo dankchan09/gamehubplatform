@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'assets/css/login.css' %}">
+    <title>Login - GameHub</title>
+</head>
+<body>
+    <main>
+        <h1>Login to GameHub</h1>
+
+        <!-- Form đăng nhập -->
+        <form method="POST">
+            {% csrf_token %}
+            <!-- Hiển thị lỗi nếu có -->
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <p class="{{ message.tags }}">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Trường username -->
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" value="{{ form.username.value|default_if_none:'' }}" required>
+            {% if form.username.errors %}
+                <div class="error">
+                    {% for error in form.username.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Trường password -->
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            {% if form.password.errors %}
+                <div class="error">
+                    {% for error in form.password.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Nút đăng nhập -->
+            <button type="submit">Login</button>
+        </form>
+
+        <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+    </main>
+</body>
+</html>
