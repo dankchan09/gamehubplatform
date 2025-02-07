@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2>Cập nhật thông tin cá nhân</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="full_name">Họ và tên</label>
+                {{ form.full_name }}
+            </div>
+            <div class="form-group">
+                <label for="address">Địa chỉ</label>
+                {{ form.address }}
+            </div>
+            <div class="form-group">
+                <label for="age">Tuổi</label>
+                {{ form.age }}
+            </div>
+            <div class="form-group">
+                <label for="gender">Giới tính</label>
+                {{ form.gender }}
+            </div>
+            <div class="form-group">
+                <label for="avatar">Ảnh đại diện</label>
+                {{ form.avatar }}
+            </div>
+            <div class="form-group">
+                <label for="bio">Giới thiệu bản thân</label>
+                {{ form.bio }}
+            </div>
+            <button type="submit" class="btn btn-primary">Cập nhật</button>
+        </form>
+        <div class="mt-3">
+            <a href="{% url 'profile' %}">Quay lại trang thông tin cá nhân</a>
+        </div>
+    </div>
+{% endblock %}

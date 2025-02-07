@@ -1,0 +1,41 @@
+{% extends 'guest.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">Shop</h2>
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">
+                        {{ product.description|truncatechars:100 }}
+                    </p>
+                    <p class="card-text text-muted">
+                        Giá: 
+                        {% if product.discount_price %}
+                            <del>{{ product.price }} VND</del> 
+                            <span class="text-danger">{{ product.discount_price }} VND</span>
+                        {% else %}
+                            {{ product.price }} VND
+                        {% endif %}
+                    </p>
+                    {% if product.get_discount_percentage %}
+                        <p class="badge bg-success">
+                            Giảm giá: {{ product.get_discount_percentage }}%
+                        </p>
+                    {% endif %}
+                    <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-center">Không có sản phẩm nào để hiển thị.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

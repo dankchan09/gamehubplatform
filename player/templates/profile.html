@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <title>Profile Updated</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    <style>
+        .product-list {
+            list-style: none;
+            padding: 0;
+        }
+        .product-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .product-list img {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .product-list span {
+            font-weight: bold;
+        }
+        .balance-box {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .balance-box h4 {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <a href="{% url 'player' %}" class="logo">
+                            <img src="{% static 'images/logo.png' %}" alt="Logo">
+                        </a>
+                        <ul class="nav">
+                            <li><a href="{% url 'player' %}">Home</a></li>
+                            <li><a href="{% url 'profile' %}" class="active">Profile
+                                    {% if user.profile.avatar %}
+                                    <img src="{{ user.profile.avatar.url }}" alt="Avatar"
+                                        style="width: 30px; height: 30px; border-radius: 50%; margin-left: 10px;">
+                                    {% else %}
+                                    <img src="{% static 'images/default-avatar.png' %}" alt="Default Avatar"
+                                        style="width: 30px; height: 30px; border-radius: 50%; margin-left: 10px;">
+                                    {% endif %}
+                                </a>
+                            </li>
+                            {% if user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Log Out</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+
+    <!-- ***** Profile Area Start ***** -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-content">
+                    <div class="main-profile">
+                        <div class="row">
+                            <div class="col-lg-4 text-center">
+                                <!-- Hiển thị Avatar -->
+                                <img src="{{ user.profile.avatar.url }}" alt="Avatar"
+                                    style="border-radius: 15px; width: 150px; height: 150px;">
+                                <h5 class="mt-3">{{ user.profile.full_name }}</h5>
+                            </div>
+                            <div class="col-lg-4 align-self-center">
+                                <div class="main-info header-text">
+                                    <h4>Thông tin cá nhân</h4>
+                                    <p><strong>Địa chỉ:</strong> {{ user.profile.address }}</p>
+                                    <p><strong>Tuổi:</strong> {{ user.profile.age }}</p>
+                                    <p><strong>Giới tính:</strong> {{ user.profile.gender }}</p>
+                                    <p>{{ user.profile.bio }}</p>
+
+                                    <!-- Hiển thị số dư -->
+                                    <div class="balance-box">
+                                        <h4>Số dư tài khoản</h4>
+                                        <p><strong>{{ user.profile.balance }} VNĐ</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 align-self-center">
+                                <ul>
+                                    <li>Games Downloaded <span>3</span></li>
+                                    <li>Friends Online <span>16</span></li>
+                                    <li><a href="{% url 'update_profile' %}" class="btn btn-primary btn-sm">Cập nhật thông tin</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hiển thị sản phẩm đã mua -->
+                    <div class="row mt-5">
+                        <div class="col-lg-12">
+                            <h4>Sản phẩm đã mua</h4>
+                            {% if user.purchasedproduct_set.all %}
+                                <ul class="product-list">
+                                    {% for purchased in user.purchasedproduct_set.all %}
+                                        <li>
+                                            <img src="{{ purchased.product.image.url }}" alt="{{ purchased.product.name }}">
+                                            <div>
+                                                <span>{{ purchased.product.name }}</span>
+                                                <p>{{ purchased.product.description }}</p>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p>Bạn chưa mua sản phẩm nào.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Profile Area End ***** -->
+
+    <footer class="footer-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright © 2036 <a href="#">Cyborg Gaming</a> Company. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+</body>
+
+</html>

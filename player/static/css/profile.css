@@ -1,0 +1,117 @@
+/* CSS riêng cho trang Profile */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Container cho Profile */
+.profile-container {
+  max-width: 900px;
+  margin: 40px auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Header profile */
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.profile-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.profile-header a {
+  background-color: #4C9AFF;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.profile-header a:hover {
+  background-color: #006bb3;
+}
+
+/* Avatar */
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #4C9AFF;
+}
+
+/* Section Profile Info */
+.profile-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.profile-info div {
+  flex: 1;
+}
+
+.profile-info h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #4C9AFF;
+}
+
+.profile-info p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Button Update Profile */
+.profile-update-btn {
+  background-color: #4C9AFF;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  width: 200px;
+  margin: 20px auto;
+}
+
+.profile-update-btn:hover {
+  background-color: #006bb3;
+}
+
+/* Form Profile Update */
+.profile-update-form input,
+.profile-update-form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.profile-update-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4C9AFF;
+  color: white;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 5px;
+}
+
+.profile-update-form button:hover {
+  background-color: #006bb3;
+}

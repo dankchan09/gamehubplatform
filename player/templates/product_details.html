@@ -1,0 +1,214 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{{ product.name }} - Product Detail</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/product_details.css' %}">
+  <script src="{% static 'vendor1/jquery/jquery.min.js' %}"></script>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header-area header-sticky">
+    <div class="container">
+      <nav class="main-nav">
+        <a href="{% url 'index' %}" class="logo">
+          <img src="{% static 'assets/images/logo.png' %}" alt="Logo">
+        </a>
+        <ul class="nav">
+          <li><a href="{% url 'player' %}">Home</a></li>
+          <li><a href="{% url 'profile' %}">Profile</a></li>
+          <!-- Thêm menu Dashboard -->
+          <li><a href="{% url 'dashboard' %}">Dashboard</a></li> <!-- Đường dẫn đến trang dashboard -->
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- DASHBOARD SECTION (optional) -->
+  {% block dashboard %}
+    <div class="dashboard-section">
+      <div class="container">
+        <h2>Welcome to Your Dashboard</h2>
+        <p>Manage your account, view your orders, and more.</p>
+        <!-- Các thông tin về dashboard có thể được thêm vào đây -->
+      </div>
+    </div>
+  {% endblock %}
+
+  <!-- PRODUCT SECTION -->
+  <div class="single-product section">
+    <div class="container">
+      <div class="product-container">
+        <!-- Ảnh sản phẩm (Bên trái) -->
+        <div class="product-image">
+          <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        </div>
+
+        <!-- Thông tin sản phẩm (Bên phải) -->
+        <div class="product-info">
+          <h2>{{ product.name }}</h2>
+          <div class="price">
+            {% if product.discount_price %}
+              <strong>{{ product.discount_price }} VND</strong> <em>{{ product.price }} VND</em>
+            {% else %}
+              <strong>{{ product.price }} VND</strong>
+            {% endif %}
+          </div>
+          <p class="description">{{ product.description }}</p>
+
+          <!-- Form thêm vào giỏ hàng -->
+          <form id="qty" action="{% url 'payment' %}" method="POST" class="add-to-cart">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+            <button type="submit" class="btn-add-cart"><i class="fa fa-shopping-bag"></i> Mua</button>
+          </form>
+
+          <!-- Thanh toán thông tin -->
+          <div id="payment-info" style="display: none;">
+            <h3>Thông tin thanh toán</h3>
+            <p>Tài khoản ngân hàng: 1234567890</p>
+            <p>Thời gian chuyển tiền: 5 phút kể từ khi bạn nhấn "Add to Cart".</p>
+          </div>
+
+          <!-- Đánh giá sao -->
+          <div class="star-rating">
+            {% for i in "12345"|slice:":5" %}
+              <span class="fa {% if i|add:0 <= average_rating %}fa-star checked{% else %}fa-star-o{% endif %}" data-value="{{ i }}"></span>
+            {% endfor %}
+            <span class="rating-score">({{ average_rating|floatformat:1 }} / 5)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bình luận -->
+      <div class="comments-section">
+        <h3>Bình luận</h3>
+        <!-- Form bình luận mới sử dụng biến review_form -->
+        <form method="POST" class="comment-form">
+          {% csrf_token %}
+          <div class="comment-box">
+            {{ review_form.as_p }}
+            <button type="submit" class="btn-submit">Gửi đánh giá</button>
+          </div>
+        </form>
+
+        <div class="reviews-container">
+          {% for review in reviews %}
+            <div class="review" id="review-{{ review.id }}">
+              <div class="review-header">
+                <img src="{% if review.user.profile.image %}{{ review.user.profile.image.url }}{% else %}{% static 'IMG/man_default.png' %}{% endif %}" alt="Avatar">
+                <div class="review-info">
+                  <strong>{{ review.user.username }}</strong>
+                  <div class="review-stars">
+                    {% for i in "12345"|slice:":5" %}
+                      <span class="fa {% if i|add:0 <= review.rating %}fa-star{% else %}fa-star-o{% endif %}"></span>
+                    {% endfor %}
+                  </div>
+                </div>
+                {% if review.user == request.user %}
+                  <div class="review-actions">
+                    <button class="more-options-btn"><i class="fa fa-ellipsis-v"></i></button>
+                    <div class="review-options">
+                      <form method="POST" action="{% url 'delete_review' review.id %}" class="delete-review-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-danger">Xoá bình luận</button>
+                      </form>
+                      <button class="btn-edit" data-review-id="{{ review.id }}" onclick="editReview({{ review.id }})">Chỉnh sửa bình luận</button>
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+              <p id="comment-{{ review.id }}">{{ review.comment }}</p>
+
+              <!-- Form chỉnh sửa bình luận (ẩn mặc định) -->
+              <div id="edit-review-form-{{ review.id }}" class="edit-review-form" style="display: none;">
+                <form method="POST" action="{% url 'edit_review' review.id %}" id="edit-form-{{ review.id }}">
+                  {% csrf_token %}
+                  <textarea name="comment" id="edit-comment-{{ review.id }}" class="form-control small-textarea">{{ review.comment }}</textarea>
+                  <button type="submit" class="btn-submit">Cập nhật bình luận</button>
+                  <button type="button" class="btn-cancel" onclick="cancelEdit({{ review.id }})">Hủy</button>
+                </form>
+              </div>
+            </div>
+          {% empty %}
+            <p>Chưa có đánh giá nào.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>&copy; {{ current_year }} LUGX Gaming Company. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Hiển thị thông tin thanh toán khi nhấn vào "Add to Cart"
+    document.querySelector('.btn-add-cart').addEventListener('click', function() {
+      document.getElementById('payment-info').style.display = 'block';
+    });
+
+    // Hiển thị hoặc ẩn các tùy chọn khi nhấn vào nút ba chấm
+    document.querySelectorAll('.more-options-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const options = this.nextElementSibling;
+        options.classList.toggle('show-options');
+      });
+    });
+
+    // Hiển thị form chỉnh sửa bình luận
+    function editReview(reviewId) {
+      const reviewText = document.getElementById(`comment-${reviewId}`);
+      const editForm = document.getElementById(`edit-review-form-${reviewId}`);
+      
+      // Ẩn bình luận hiện tại
+      reviewText.style.display = 'none';
+      // Hiển thị form chỉnh sửa
+      editForm.style.display = 'block';
+    }
+
+    // Hủy chỉnh sửa
+    function cancelEdit(reviewId) {
+      const editForm = document.getElementById(`edit-review-form-${reviewId}`);
+      const reviewText = document.getElementById(`comment-${reviewId}`);
+      
+      // Ẩn form chỉnh sửa
+      editForm.style.display = 'none';
+      // Hiển thị lại bình luận
+      reviewText.style.display = 'block';
+    }
+
+    // Sử dụng AJAX để gửi cập nhật bình luận mà không tải lại trang
+    $(document).on('submit', 'form[id^="edit-form-"]', function(event) {
+      event.preventDefault();
+      const form = $(this);
+      const reviewId = form.attr('id').split('-')[2];
+      const url = form.attr('action');
+      const data = form.serialize();
+
+      $.ajax({
+        type: 'POST',
+        url: url,
+        data: data,
+        success: function(response) {
+          // Cập nhật nội dung bình luận mới
+          const newComment = $('#edit-comment-' + reviewId).val();
+          $('#comment-' + reviewId).text(newComment).show();
+          $('#edit-review-form-' + reviewId).hide();
+        },
+        error: function(xhr, status, error) {
+          console.error('Error updating comment:', error);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
