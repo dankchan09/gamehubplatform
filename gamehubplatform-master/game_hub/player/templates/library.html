@@ -1,0 +1,14 @@
+<!-- library.html -->
+
+{% block content %}
+<h2>Thư Viện Của Tôi</h2>
+<ul>
+    {% for product in products %}
+    <li>
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description }}</p>
+        <p>{{ product.price }} VNĐ</p>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

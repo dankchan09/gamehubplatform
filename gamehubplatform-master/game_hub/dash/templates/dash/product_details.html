@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <title>{{ product.name }} - Product Detail</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'vendor1/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Additional CSS Files -->
+  <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/templatemo-lugx-gaming.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
+  <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+</head>
+
+<body>
+
+  <!-- Preloader -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header-area header-sticky">
+    <div class="container">
+      <nav class="main-nav">
+        <a href="{% url 'index' %}" class="logo">
+          <img src="{% static 'assets/images/logo.png' %}" alt="Logo" style="width: 158px;">
+        </a>
+        <ul class="nav">
+          <li><a href="{% url 'index' %}">Home</a></li>
+          <li><a href="{% url 'shop' %}">Our Shop</a></li>
+          <li><a href="{% url 'login' %}">Sign In</a></li>
+        </ul>
+        <a class='menu-trigger'>
+          <span>Menu</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Heading -->
+  <div class="page-heading header-text">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h3>{{ product.name }}</h3>
+          <span class="breadcrumb">
+            <a href="{% url 'index' %}">Home</a> > 
+            <a href="{% url 'shop' %}">Shop</a> > 
+            {{ product.name }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Single Product -->
+  <div class="single-product section">
+    <div class="container">
+      <div class="row">
+        <!-- Product Image -->
+        <div class="col-lg-6">
+          <div class="left-image">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+          </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="col-lg-6 align-self-center">
+          <h4>{{ product.name }}</h4>
+          <span class="price">
+            {% if product.discount_price %}
+              <em>${{ product.price }}</em> ${{ product.discount_price }}
+            {% else %}
+              ${{ product.price }}
+            {% endif %}
+          </span>
+          <p>{{ product.description }}</p>
+          <form id="qty" action="#">
+            <input type="number" class="form-control" id="quantity" placeholder="1" min="1">
+            <button type="submit"><i class="fa fa-shopping-bag"></i> ADD TO CART</button>
+          </form>
+          <ul>
+            <li><strong>Game ID:</strong> {{ product.id }}</li>
+            <li><strong>Genre:</strong> 
+              {% for genre in product.genres.all %}
+                <a href="#">{{ genre }}</a>{% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            </li>
+            <li><strong>Tags:</strong> 
+              {% for tag in product_tags %}
+                <a href="#">{{ tag }}</a>{% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="col-lg-12">
+        <p>&copy; {{ current_year }} LUGX Gaming Company. All rights reserved. 
+          <a rel="nofollow" href="https://templatemo.com" target="_blank">Design: TemplateMo</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="{% static 'vendor1/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor1/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'assets/js/custom.js' %}"></script>
+</body>
+</html>

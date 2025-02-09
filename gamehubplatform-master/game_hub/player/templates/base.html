@@ -1,0 +1,171 @@
+{% load static %}
+{% load custom_filters %}  <!-- Tải thư viện custom_filters -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-gray-800 text-white p-5">
+            <h2 class="text-2xl font-bold">Dashboard</h2>
+            <nav class="mt-5">
+                <ul>
+                    <li class="mb-2"><a href="{% url 'dashboard' %}" class="block p-2 hover:bg-gray-700">Trang chủ</a></li>
+                    <li class="mb-2"><a href="{% url 'library' %}" class="block p-2 hover:bg-gray-700">Thư viện của bạn</a></li>
+                    <!-- Cập nhật đường dẫn order_success để truyền tham số order_id -->
+                    <li class="mb-2">
+                        <a href="{% url 'profile' %}" class="block p-2 bg-blue-600 rounded text-center hover:bg-blue-700">
+                            Hồ sơ cá nhân
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="flex-1 p-5">
+            <div class="flex justify-between items-center mb-5">
+                <h1 class="text-3xl font-bold">Chào mừng đến với GAME HUB</h1>
+                
+                <!-- Nút Profile trên Header với Avatar và Số dư tài khoản -->
+                <a href="{% url 'profile' %}" class="flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    <img src="{{ request.user.profile.avatar.url }}" alt="Avatar" class="w-8 h-8 rounded-full mr-2">
+                    Hồ sơ cá nhân
+                    <span class="ml-2 font-semibold">{{ request.user.profile.balance|format_vnd }}</span>
+                </a>
+            </div>
+
+            <!-- Ô tìm kiếm sản phẩm -->
+            <div class="mb-5">
+                <input type="text" id="search_input" placeholder="Tìm kiếm sản phẩm..." class="w-full p-2 rounded border border-gray-300" autocomplete="off">
+                <ul id="suggestions_list" class="mt-2 bg-white shadow-lg rounded max-h-60 overflow-y-auto hidden"></ul>
+            </div>
+
+            <!-- Các danh mục phân loại sản phẩm -->
+            <div class="mt-5">
+                <h2 class="text-2xl font-bold mb-3">Danh mục Sản phẩm</h2>
+                <ul class="flex space-x-4 mb-5">
+                    <li><a href="#top-rated" class="text-blue-600 hover:underline">Lượt đánh giá nhiều nhất</a></li>
+                    <li><a href="#newest" class="text-blue-600 hover:underline">Mới nhất</a></li>
+                    <li><a href="#cheapest" class="text-blue-600 hover:underline">Giá rẻ nhất</a></li>
+                </ul>
+            </div>
+
+            <!-- Danh sách sản phẩm -->
+            <div id="top-rated" class="mt-5">
+                <h2 class="text-2xl font-bold mb-3">Lượt đánh giá nhiều nhất</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {% for product in top_rated_products %}
+                        <div class="bg-white p-5 rounded shadow">
+                            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'default-image-url.jpg' %}{% endif %}" alt="{{ product.name }}" class="w-full h-40 object-cover rounded">
+                            <h3 class="text-lg font-bold mt-2">{{ product.name }}</h3>
+                            <p class="text-gray-600">{{ product.description|truncatechars:50 }}</p>
+                            <p class="text-blue-500 font-bold">{{ product.price|format_vnd }}</p>
+                            <a href="{% url 'product_detail' product.id %}" class="text-blue-600 hover:underline">Xem chi tiết</a>
+
+                            <!-- Hiển thị đánh giá -->
+                            <div class="mt-4">
+                                <p class="text-gray-700 font-semibold">Đánh giá:</p>
+                                {% if product.reviews.count > 0 %}
+                                    <p class="text-yellow-500">
+                                        {% for i in product.reviews.all %}
+                                            {% if i.rating and i.rating >= 1 and i.rating <= 5 %}
+                                                <span class="fa fa-star"></span>
+                                            {% else %}
+                                                <span class="fa fa-star-o"></span>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {{ product.reviews.count }} đánh giá
+                                    </p>
+                                {% else %}
+                                    <p class="text-gray-500">Chưa có đánh giá.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p>Không có sản phẩm nào.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Các phân loại khác (Mới nhất, Giá rẻ nhất, ...) -->
+            <div id="newest" class="mt-5">
+                <h2 class="text-2xl font-bold mb-3">Mới nhất</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {% for product in newest_products %}
+                        <div class="bg-white p-5 rounded shadow">
+                            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'default-image-url.jpg' %}{% endif %}" alt="{{ product.name }}" class="w-full h-40 object-cover rounded">
+                            <h3 class="text-lg font-bold mt-2">{{ product.name }}</h3>
+                            <p class="text-gray-600">{{ product.description|truncatechars:50 }}</p>
+                            <p class="text-blue-500 font-bold">{{ product.price|format_vnd }}</p>
+                            <a href="{% url 'product_detail' product.id %}" class="text-blue-600 hover:underline">Xem chi tiết</a>
+                        </div>
+                    {% empty %}
+                        <p>Không có sản phẩm nào.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div id="cheapest" class="mt-5">
+                <h2 class="text-2xl font-bold mb-3">Giá rẻ nhất</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {% for product in cheapest_products %}
+                        <div class="bg-white p-5 rounded shadow">
+                            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'default-image-url.jpg' %}{% endif %}" alt="{{ product.name }}" class="w-full h-40 object-cover rounded">
+                            <h3 class="text-lg font-bold mt-2">{{ product.name }}</h3>
+                            <p class="text-gray-600">{{ product.description|truncatechars:50 }}</p>
+                            <p class="text-blue-500 font-bold">{{ product.price|format_vnd }}</p>
+                            <a href="{% url 'product_detail' product.id %}" class="text-blue-600 hover:underline">Xem chi tiết</a>
+                        </div>
+                    {% empty %}
+                        <p>Không có sản phẩm nào.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('search_input').addEventListener('input', function() {
+            let query = this.value;
+            let suggestionsList = document.getElementById('suggestions_list');
+            
+            // Clear previous suggestions
+            suggestionsList.innerHTML = '';
+
+            if (query.length > 2) {  // Chỉ tìm kiếm khi người dùng nhập ít nhất 3 ký tự
+                suggestionsList.classList.remove('hidden');
+                fetch(`/search-suggestions/?q=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length > 0) {
+                            data.forEach(suggestion => {
+                                let li = document.createElement('li');
+                                li.textContent = suggestion.name;
+                                li.classList.add('p-2', 'hover:bg-gray-200', 'cursor-pointer');
+                                li.addEventListener('click', function() {
+                                    window.location.href = `/product/${suggestion.id}/`;  // Chuyển hướng đến sản phẩm
+                                });
+                                suggestionsList.appendChild(li);
+                            });
+                        } else {
+                            suggestionsList.innerHTML = '<li class="p-2 text-gray-500">Không có gợi ý nào</li>';
+                        }
+                    })
+                    .catch(error => {
+                        suggestionsList.innerHTML = '<li class="p-2 text-red-500">Có lỗi xảy ra khi tìm kiếm.</li>';
+                        console.error('Error fetching search suggestions:', error);
+                    });
+            } else {
+                suggestionsList.classList.add('hidden');  // Ẩn khi không có đủ ký tự
+            }
+        });
+    </script>
+</body>
+</html>

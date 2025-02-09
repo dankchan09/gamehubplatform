@@ -1,0 +1,118 @@
+/* General Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+/* Header */
+.header-area {
+  background-color: #222;
+  padding: 15px 0;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.header-area .logo img {
+  width: 150px;
+}
+
+.header-area .nav li a {
+  color: #fff;
+  padding: 10px 15px;
+  transition: all 0.3s;
+}
+
+.header-area .nav li a:hover {
+  color: #e75e8d;
+}
+
+/* Page Heading */
+.page-heading {
+  text-align: center;
+  padding: 100px 0 30px;
+  background: linear-gradient(to right, #ff512f, #dd2476);
+}
+
+.page-heading h3 {
+  font-size: 36px;
+}
+
+/* Product Grid */
+.trending-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.trending-items {
+  background: #27292a;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.trending-items:hover {
+  transform: scale(1.05);
+}
+
+.trending-items .thumb img {
+  border-radius: 10px;
+}
+
+.trending-items .price {
+  font-size: 18px;
+  color: #e75e8d;
+  font-weight: bold;
+}
+
+/* Buttons */
+.btn-primary {
+  display: inline-block;
+  width: 100%;
+  padding: 10px;
+  background: #e75e8d;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+  background: #ff512f;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.pagination li a {
+  padding: 10px 15px;
+  margin: 5px;
+  background: #333;
+  color: #fff;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.pagination li a:hover,
+.pagination li a.is_active {
+  background: #e75e8d;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px 0;
+  background: #222;
+}

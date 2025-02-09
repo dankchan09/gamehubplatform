@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh Toán</title>
+    <link rel="stylesheet" href="{% static 'css/payment.css' %}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Giỏ hàng của bạn</h1>
+    </header>
+
+    <!-- Giỏ hàng -->
+    <div class="cart-info">
+        <h2>Danh sách sản phẩm</h2>
+        <ul>
+            {% for product in products %}
+                <li>{{ product.name }} - {{ product.price }} VNĐ</li>
+            {% empty %}
+                <li>Giỏ hàng trống.</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Tổng tiền: {{ total_price }} VNĐ</h3>
+    </div>
+
+    <!-- Thông tin thanh toán -->
+    <div class="payment-info">
+        <p>Vui lòng chuyển khoản vào tài khoản ngân hàng sau:</p>
+        <p><strong>Tên tài khoản:</strong> Công ty ABC</p>
+        <p><strong>Số tài khoản:</strong> 1234567890</p>
+        <p><strong>Ngân hàng:</strong> Ngân hàng XYZ</p>
+        <p><strong>Vui lòng thanh toán trong vòng 30 phút.</strong></p>
+
+        <!-- Mã QR -->
+        <img src="{% static 'images/qr_code.png' %}" alt="QR Code" />
+    </div>
+
+    <!-- Form xác nhận thanh toán -->
+    <form method="POST" action="{% url 'confirm_payment' payment_id=payment.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <button type="submit">Xác nhận thanh toán</button>
+        </div>
+    </form>
+
+</body>
+</html>

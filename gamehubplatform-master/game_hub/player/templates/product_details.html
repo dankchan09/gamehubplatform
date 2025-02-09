@@ -1,0 +1,222 @@
+{% load static %}
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{{ product.name }} - Product Detail</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/product_details.css' %}">
+  <script src="{% static 'vendor1/jquery/jquery.min.js' %}"></script>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header-area header-sticky">
+    <div class="container">
+      <nav class="main-nav">
+        <a href="{% url 'index' %}" class="logo">
+          <img src="{% static 'assets/images/logo.png' %}" alt="Logo">
+        </a>
+        <ul class="nav">
+          <li><a href="{% url 'player' %}">Home</a></li>
+          <li><a href="{% url 'profile' %}">Profile</a></li>
+          <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Product Notification -->
+  <div class="notification-container">
+    {% for message in messages %}
+      <div class="notification {% if message.tags == 'success' %}success{% elif message.tags == 'error' %}error{% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- PRODUCT SECTION -->
+  <div class="single-product section">
+    <div class="container">
+      <div class="product-container">
+        <div class="product-image">
+          <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        </div>
+
+        <div class="product-info">
+          <h2>{{ product.name }}</h2>
+          
+          <!-- Price Display -->
+          <div class="price">
+            {% if product.discount_price %}
+              <strong>{{ product.discount_price|format_vnd }}</strong> <em>{{ product.price|format_vnd }}</em>
+            {% else %}
+              <strong>{{ product.price|format_vnd }}</strong>
+            {% endif %}
+          </div>
+          
+          <p class="description">{{ product.description }}</p>
+
+          <!-- Balance Display -->
+          <div class="balance-info">
+            <p><strong>Số dư tài khoản:</strong> {{ request.user.profile.balance|format_vnd }}</p>
+          </div>
+
+          <!-- Out of Stock Notification -->
+          {% if product.stock <= 0 %}
+            <div class="out-of-stock-notice">
+              <strong>Sản phẩm đã hết hàng.</strong>
+            </div>
+          {% endif %}
+
+          <!-- Display error if product already bought or balance is insufficient -->
+          {% if request.user.profile.balance < product.price %}
+            <div class="error-notice">
+              <strong>Thông báo:</strong> Bạn không đủ số dư để mua sản phẩm này.
+            </div>
+          {% endif %}
+
+          <!-- Check if user has already purchased the product -->
+          {% if has_purchased %}
+            <div class="error-notice">
+              <strong>Thông báo:</strong> Bạn đã mua sản phẩm này rồi.
+            </div>
+          {% else %}
+            <!-- Purchase Form -->
+            <form id="qty" action="{% url 'purchase_product' product.id %}" method="POST" class="add-to-cart">
+              {% csrf_token %}
+              <input type="hidden" name="product_id" value="{{ product.id }}">
+
+              <!-- Buy Button -->
+              <button type="submit" id="confirm-purchase-btn" class="btn-add-cart" aria-label="Mua sản phẩm">
+                <i class="fa fa-shopping-bag"></i> Mua
+              </button>
+            </form>
+          {% endif %}
+
+          <div class="star-rating">
+            {% for i in "12345"|slice:":5" %}
+              <span class="fa {% if i|add:0 <= average_rating %}fa-star checked{% else %}fa-star-o{% endif %}" data-value="{{ i }}"></span>
+            {% endfor %}
+            <span class="rating-score">({{ average_rating|floatformat:1 }} / 5)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="comments-section">
+        <h3>Bình luận</h3>
+        <form method="POST" class="comment-form">
+          {% csrf_token %}
+          <div class="comment-box">
+            {{ review_form.as_p }}
+            <button type="submit" class="btn-submit">Gửi đánh giá</button>
+          </div>
+        </form>
+
+        <div class="reviews-container">
+          {% for review in reviews %}
+            <div class="review" id="review-{{ review.id }}">
+              <div class="review-header">
+                <img src="{% if review.user.profile.image %}{{ review.user.profile.image.url }}{% else %}{% static 'IMG/man_default.png' %}{% endif %}" alt="Avatar">
+                <div class="review-info">
+                  <strong>{{ review.user.username }}</strong>
+                  <div class="review-stars">
+                    {% for i in "12345"|slice:":5" %}
+                      <span class="fa {% if i|add:0 <= review.rating %}fa-star{% else %}fa-star-o{% endif %}"></span>
+                    {% endfor %}
+                  </div>
+                </div>
+                {% if review.user == request.user %}
+                  <div class="review-actions">
+                    <button class="more-options-btn" aria-label="Tùy chọn bình luận"><i class="fa fa-ellipsis-v"></i></button>
+                    <div class="review-options">
+                      <form method="POST" action="{% url 'delete_review' review.id %}" class="delete-review-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-danger">Xoá bình luận</button>
+                      </form>
+                      <button class="btn-edit" data-review-id="{{ review.id }}" onclick="editReview({{ review.id }})">Chỉnh sửa bình luận</button>
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+              <p id="comment-{{ review.id }}">{{ review.comment }}</p>
+
+              <div id="edit-review-form-{{ review.id }}" class="edit-review-form" style="display: none;">
+                <form method="POST" action="{% url 'edit_review' review.id %}" id="edit-form-{{ review.id }}">
+                  {% csrf_token %}
+                  <textarea name="comment" id="edit-comment-{{ review.id }}" class="form-control small-textarea">{{ review.comment }}</textarea>
+                  <button type="submit" class="btn-submit">Cập nhật bình luận</button>
+                  <button type="button" class="btn-cancel" onclick="cancelEdit({{ review.id }})">Hủy</button>
+                </form>
+              </div>
+            </div>
+          {% empty %}
+            <p>Chưa có đánh giá nào.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>&copy; {{ current_year }} LUGX Gaming Company. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Modal for purchase confirmation -->
+  <div id="confirm-purchase-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <h3>Xác nhận mua sản phẩm</h3>
+      <p>Sản phẩm: {{ product.name }}</p>
+      <p>Giá: {{ product.price|format_vnd }}</p>
+      <form method="POST" action="{% url 'purchase_product' product.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn-submit">Xác nhận mua</button>
+        <button type="button" id="cancel-purchase-btn" class="btn-cancel">Hủy</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Hiển thị form xác nhận khi nhấn vào "Mua"
+    document.getElementById("confirm-purchase-btn").addEventListener("click", function() {
+      document.getElementById("confirm-purchase-modal").style.display = "flex";
+    });
+
+    // Ẩn form khi nhấn "Hủy"
+    document.getElementById("cancel-purchase-btn").addEventListener("click", function() {
+      document.getElementById("confirm-purchase-modal").style.display = "none";
+    });
+
+    // Hiển thị hoặc ẩn các tùy chọn khi nhấn vào nút ba chấm
+    document.querySelectorAll('.more-options-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const options = this.nextElementSibling;
+        options.classList.toggle('show-options');
+      });
+    });
+
+    // Hiển thị form chỉnh sửa bình luận
+    function editReview(reviewId) {
+      const reviewText = document.getElementById(`comment-${reviewId}`);
+      const editForm = document.getElementById(`edit-review-form-${reviewId}`);
+      reviewText.style.display = 'none';
+      editForm.style.display = 'block';
+    }
+
+    // Hủy chỉnh sửa bình luận
+    function cancelEdit(reviewId) {
+      const reviewText = document.getElementById(`comment-${reviewId}`);
+      const editForm = document.getElementById(`edit-review-form-${reviewId}`);
+      reviewText.style.display = 'block';
+      editForm.style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>

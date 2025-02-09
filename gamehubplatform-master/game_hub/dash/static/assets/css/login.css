@@ -1,0 +1,160 @@
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    transition: background 0.5s ease-in-out;
+}
+
+main {
+    width: 90%;
+    max-width: 400px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(30, 30, 30, 0.5));
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 25px;
+    color: #ff6cfa;
+    text-shadow: 3px 3px 10px rgba(255, 119, 226, 0.8);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+}
+
+label {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #cfd8dc;
+}
+
+input {
+    width: 100%;
+    max-width: 320px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+
+input:focus {
+    outline: none;
+    border-color: #ff64db;
+    box-shadow: 0 0 12px rgba(255, 108, 245, 0.6);
+}
+#dustCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Đặt canvas ở dưới nội dung */
+    pointer-events: none; /* Không ảnh hưởng đến các sự kiện chuột */
+}
+
+button {
+    width: 100%;
+    max-width: 320px;
+    padding: 15px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #ff64dd, #ee5af9);
+    color: black;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #ff00c3, #ffffff);
+    color: black;
+    box-shadow: 0 0 12px rgba(255, 0, 195, 0.9);
+    transform: scale(1.08);
+}
+
+a {
+    text-decoration: none;
+    color: #fc68d0;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: white;
+}
+
+.error-message {
+    color: #ff4c4c;
+    display: none;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    background-color: rgba(255, 76, 76, 0.2);
+    padding: 10px;
+    border-radius: 8px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.error-message.active {
+    display: block;
+    opacity: 1;
+}
+
+.messages p {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.messages p.success {
+    color: #2e7d32;
+    background-color: rgba(46, 125, 50, 0.2);
+}
+
+.messages p.error {
+    color: #d32f2f;
+    background-color: rgba(211, 47, 47, 0.2);
+}
+
+@media (max-width: 768px) {
+    main {
+        width: 95%;
+        max-width: 350px;
+        padding: 25px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    button, input {
+        max-width: 100%;
+    }
+}
