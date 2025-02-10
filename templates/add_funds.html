@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Nạp tiền vào tài khoản</title>
+
+    <!-- Bootstrap & Custom CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/add_funds.css' %}">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Nạp tiền vào tài khoản</h2>
+        <div class="card p-4 mx-auto" style="max-width: 400px;">
+            <form method="post" action="{% url 'add_fund' %}" id="fund-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="amount">Số tiền muốn nạp (VNĐ):</label>
+                    <input type="text" id="amount" name="amount" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Thông tin tài khoản ngân hàng:</label>
+                    <p><strong>Ngân hàng:</strong> VIETCOMBANK</p>
+                    <p><strong>Số tài khoản:</strong> 123456789</p>
+                    <p><strong>Chủ tài khoản:</strong> TRAN TIEN DANH </p>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Xác nhận chuyển khoản</button>
+            </form>
+        </div>
+        <div class="text-center mt-3">
+            <a href="{% url 'profile' %}" class="btn btn-secondary">Quay lại hồ sơ</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script>
+        // Format the input value as VNĐ with commas
+        document.getElementById("amount").addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove all non-numeric characters
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ","); // Add commas for thousands separator
+            e.target.value = value;
+        });
+
+        // Optional: Before form submission, remove commas from the amount field
+        document.querySelector("form").addEventListener("submit", function() {
+            let amountInput = document.getElementById("amount");
+            let amountValue = amountInput.value.replace(/,/g, ''); // Remove commas
+            amountInput.value = amountValue;
+        });
+    </script>
+</body>
+
+</html>

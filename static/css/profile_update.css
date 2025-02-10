@@ -1,0 +1,142 @@
+/* Tổng quan trang */
+html, body {
+    height: 100%; /* Đảm bảo body chiếm toàn bộ chiều cao màn hình */
+    margin: 0;
+    font-family: 'Arial', sans-serif; /* Đảm bảo font chữ đồng nhất */
+}
+
+body {
+    display: flex;
+    flex-direction: column; /* Căn chỉnh theo chiều dọc */
+}
+
+/* Container chứa form */
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: #f9f9f9; /* Thêm nền nhẹ để làm nổi bật form */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Thêm bóng mờ cho form */
+    flex-grow: 1; /* Đảm bảo container chiếm phần còn lại của không gian */
+}
+
+/* Tiêu đề */
+h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #4CAF50;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Form */
+.form-group {
+    margin-bottom: 20px; /* Cải thiện khoảng cách giữa các nhóm form */
+}
+
+/* Label */
+label {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Input fields */
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    margin-top: 5px; /* Thêm khoảng cách giữa label và input */
+}
+
+/* Focus hiệu ứng */
+input:focus, select:focus, textarea:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.6); /* Thêm bóng mờ khi focus */
+}
+
+/* Textarea */
+textarea {
+    height: 140px;
+    resize: vertical;
+}
+
+/* Button */
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+    transform: translateY(-2px); /* Thêm hiệu ứng nhấc nhẹ khi hover */
+}
+
+/* Liên kết */
+.mt-3 a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.mt-3 a:hover {
+    text-decoration: underline;
+}
+
+/* Hiệu ứng loading nếu cần */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+/* Thiết kế form responsive */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    label {
+        font-size: 1rem;
+    }
+
+    button[type="submit"] {
+        font-size: 1rem;
+    }
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+}
+
+/* Đảm bảo form không bị đẩy xuống dưới cùng */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Đảm bảo các phần tử được phân bổ hợp lý */
+    min-height: 100vh; /* Đảm bảo chiều cao toàn bộ trang đầy đủ */
+}

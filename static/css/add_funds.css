@@ -1,0 +1,116 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+    color: #495057;
+    line-height: 1.6;
+}
+
+.container {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    max-width: 450px;
+    margin-top: 50px;
+}
+
+h2 {
+    color: #007bff;
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.card {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    border: none;
+    padding: 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group label {
+    font-weight: 500;
+    color: #6c757d;
+    margin-bottom: 8px;
+}
+
+input.form-control {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    font-size: 18px;
+    color: #333;
+    background-color: #f1f1f1;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+input.form-control:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    outline: none;
+}
+
+button.btn-success {
+    background-color: #28a745;
+    border: none;
+    color: white;
+    font-size: 18px;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+}
+
+button.btn-success:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.text-center a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.text-center a:hover {
+    color: #0056b3;
+}
+
+/* Info Section */
+.form-group p {
+    color: #6c757d;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.form-group p strong {
+    color: #495057;
+}
+
+/* Responsive Design */
+@media (max-width: 767px) {
+    .container {
+        padding: 30px;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+
+    input.form-control, button.btn-success {
+        font-size: 16px;
+    }
+}
