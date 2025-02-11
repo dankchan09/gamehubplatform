@@ -1,0 +1,120 @@
+/* Body */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: url('rg_bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Register Container */
+.register-container {
+  max-width: 400px;
+  width: 100%;
+  padding: 20px; /* Giảm padding */
+  border-radius: 10px; /* Bo góc mềm mại */
+  background-color: rgba(0, 0, 0, 0.7); /* Màu nền đơn giản */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Register Title */
+.register-title {
+  color: #ffffff;
+  margin-bottom: 15px;
+  font-size: 1.6rem; /* Giảm kích thước chữ */
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Register Form */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Giảm khoảng cách */
+  width: 100%;
+  align-items: center;
+}
+
+/* Form Inputs */
+.form-input {
+  width: 80%;
+  padding: 10px;
+  border: 1px solid #555; /* Viền tối giản */
+  border-radius: 50px;
+  font-size: 1rem;
+  background-color: rgba(40, 40, 40, 0.5); /* Nền tối giản */
+  color: #ffffff;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.form-input:focus {
+  border-color: #ffffff;
+  background-color: rgba(20, 20, 20, 1);
+  outline: none;
+}
+
+/* Register Button */
+.register-button {
+  width: 80%;
+  padding: 10px;
+  background: #333; /* Màu nền tối giản */
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.register-button:hover {
+  background: #444; /* Màu nền sáng hơn khi hover */
+}
+
+/* Login Link */
+.login-link {
+  text-align: center;
+  margin-top: 15px;
+  color: #cfd8dc;
+}
+
+.login-link a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.login-link a:hover {
+  color: #007bff; /* Màu xanh khi hover */
+}
+
+/* Responsive Styles */
+@media (max-width: 480px) {
+  .register-container {
+    padding: 15px; /* Giảm padding trên thiết bị nhỏ */
+  }
+
+  .register-title {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+  }
+
+  .form-input {
+    font-size: 0.9rem;
+  }
+
+  .register-button {
+    font-size: 0.9rem;
+  }
+}
