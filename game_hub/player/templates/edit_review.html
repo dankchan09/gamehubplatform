@@ -1,0 +1,27 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Edit Review</title>
+</head>
+<body>
+  <header class="header-area">
+    <nav>
+      <a href="{% url 'index' %}">Home</a>
+      <a href="{% url 'product_detail' product_id=review.product.id %}">Back to Product</a>
+    </nav>
+  </header>
+
+  <div class="edit-review-form">
+    <h2>Edit Your Review</h2>
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn-submit">Update Review</button>
+    </form>
+  </div>
+</body>
+</html>

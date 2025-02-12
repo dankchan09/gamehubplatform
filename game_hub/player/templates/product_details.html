@@ -1,0 +1,280 @@
+{% load static %}
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{{ product.name }} - Product Detail</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/product_details.css' %}">
+  <script src="{% static 'vendor1/jquery/jquery.min.js' %}"></script>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header-area header-sticky">
+    <div class="container">
+      <nav class="main-nav">
+        <a href="{% url 'index' %}" class="logo">MyGame</a>
+        <ul class="nav">
+          <li><a href="{% url 'dashboard' %}">Home</a></li>
+          <li><a href="{% url 'profile' %}">Profile</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Product Notification -->
+  <div class="notification-container">
+    {% for message in messages %}
+      <div class="notification {% if message.tags == 'success' %}success{% elif message.tags == 'error' %}error{% endif %} show">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- PRODUCT SECTION -->
+  <div class="single-product section">
+    <div class="container">
+      <div class="product-container">
+        <div class="product-image">
+          <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        </div>
+
+        <div class="product-info">
+          <h2>{{ product.name }}</h2>
+
+          <!-- Price Display -->
+          <div class="price">
+            {% if product.discount_price %}
+              <strong>{{ product.discount_price|format_vnd }}</strong> <em>{{ product.price|format_vnd }}</em>
+            {% else %}
+              <strong>{{ product.price|format_vnd }}</strong>
+            {% endif %}
+          </div>
+
+          <p class="description">{{ product.description }}</p>
+
+          <!-- Balance Display -->
+          <div class="balance-info">
+            <p><strong>Số dư tài khoản:</strong> {{ request.user.profile.balance|format_vnd }}</p>
+          </div>
+
+          <!-- Out of Stock Notification -->
+          {% if product.stock <= 0 %}
+            <div class="out-of-stock-notice">
+              <strong>Sản phẩm đã hết hàng.</strong>
+            </div>
+          {% endif %}
+
+          <!-- Display error if product already bought or balance is insufficient -->
+          {% if request.user.profile.balance < product.price %}
+            <div class="error-notice">
+              <strong>Bạn không đủ số dư để mua sản phẩm này!.</strong>
+            </div>
+          {% endif %}
+
+          <!-- Check if user has already purchased the product -->
+          {% if has_purchased %}
+            <div class="error-notice">
+              <strong>Bạn đã mua sản phẩm này rồi!.</strong>
+            </div>
+          {% else %}
+            <!-- Purchase Form -->
+            <form id="purchase-form" action="{% url 'purchase_product' product.id %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="product_id" value="{{ product.id }}">
+            </form>
+
+            <button type="button" id="confirm-purchase-btn" class="btn-add-cart">
+              <i class="fa fa-shopping-bag"></i> Mua
+            </button>
+          {% endif %}
+
+          <div class="star-rating">
+            {% for i in "12345"|slice:":5" %}
+              <span class="fa {% if i|add:0 <= average_rating|default:0 %}fa-star checked{% else %}fa-star-o{% endif %}" data-value="{{ i }}"></span>
+            {% endfor %}
+            <span class="rating-score">({{ average_rating|default:0|floatformat:1 }} / 5)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMMENTS SECTION -->
+      <div class="comments-section">
+        <h3>Bình luận</h3>
+        <form method="POST" class="comment-form">
+          {% csrf_token %}
+          <div class="comment-box">
+            {{ review_form.as_p }}
+            <button type="submit" class="btn-submit">Gửi đánh giá</button>
+          </div>
+        </form>
+
+        <div class="reviews-container">
+          {% for review in reviews %}
+            <div class="review" id="review-{{ review.id }}">
+              <div class="review-header">
+                <img src="{% if request.user.profile.avatar %}{{ request.user.profile.avatar.url }}{% else %}{% static 'IMG/man_default.png' %}{% endif %}" alt="Avatar" class="w-12 h-12 rounded-full object-cover mr-3 border-2 border-white">
+                <div class="review-info">
+                  <strong>{{ review.user.profile.username }}</strong>
+                  <div class="review-stars">
+                    {% for i in "12345"|slice:":5" %}
+                      <span class="fa {% if i|add:0 <= review.rating %}fa-star{% else %}fa-star-o{% endif %}"></span>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                {% if review.user == request.user %}
+                  <div class="review-actions">
+                    <button class="more-options-btn" aria-label="Tùy chọn bình luận" onclick="toggleOptions({{ review.id }})"><i class="fa fa-ellipsis-v"></i></button>
+                    <div class="review-options" id="review-options-{{ review.id }}">
+                      <button class="btn-edit" onclick="editReview({{ review.id }})">Chỉnh sửa bình luận</button>
+                      <form method="POST" action="{% url 'delete_review' review.id %}" class="delete-review-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-danger">Xoá bình luận</button>
+                      </form>
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+
+              <p id="comment-{{ review.id }}">{{ review.comment }}</p>
+
+              <!-- Form chỉnh sửa ngay dưới bình luận -->
+              <div id="edit-review-form-{{ review.id }}" class="edit-review-form" style="display: none;">
+                <form method="POST" action="{% url 'edit_review' review.id %}" class="edit-review">
+                  {% csrf_token %}
+                  <textarea name="comment" id="edit-comment-{{ review.id }}" class="form-control small-textarea">{{ review.comment }}</textarea>
+                  <button type="button" class="btn-submit" onclick="submitEditReview({{ review.id }})">Cập nhật bình luận</button>
+                  <button type="button" class="btn-cancel" onclick="cancelEdit({{ review.id }})">Hủy</button>
+                </form>
+              </div>  
+            </div>
+          {% empty %}
+            <p>Chưa có đánh giá nào.</p>
+          {% endfor %}
+        </div>
+      </div>      
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>&copy; {{ current_year }} LUGX Gaming Company. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Modal for Purchase Confirmation -->
+  <div id="purchaseModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <p>Bạn chắc chắn muốn mua sản phẩm này?</p>
+      <div class="modal-buttons">
+        <button id="confirmPurchase">Xác nhận</button>
+        <button id="cancelPurchase">Hủy</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Modal Purchase Confirmation
+    document.getElementById("confirm-purchase-btn").addEventListener("click", function() {
+      document.getElementById("purchaseModal").style.display = "flex";
+    });
+
+    document.getElementById("confirmPurchase").addEventListener("click", function() {
+      document.getElementById("purchase-form").submit();
+    });
+
+    document.getElementById("cancelPurchase").addEventListener("click", function() {
+      document.getElementById("purchaseModal").style.display = "none";
+    });
+
+    // Close modal if clicked outside
+    window.onclick = function(event) {
+      var modal = document.getElementById("purchaseModal");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+
+    function toggleOptions(reviewId) {
+      const optionsDiv = document.getElementById('review-options-' + reviewId);
+      optionsDiv.classList.toggle('show-options');
+    }
+
+    function editReview(reviewId) {
+      // Ẩn bình luận hiện tại
+      document.getElementById('comment-' + reviewId).style.display = 'none';
+    
+      // Hiển thị form chỉnh sửa
+      document.getElementById('edit-review-form-' + reviewId).style.display = 'block';
+    
+      // Đặt giá trị hiện tại của bình luận vào textarea chỉnh sửa
+      var currentComment = document.getElementById('comment-' + reviewId).innerText;
+      document.getElementById('edit-comment-' + reviewId).value = currentComment;
+    }
+    
+    function cancelEdit(reviewId) {
+      // Hủy chỉnh sửa, hiển thị lại bình luận cũ và ẩn form
+      document.getElementById('edit-review-form-' + reviewId).style.display = 'none';
+      document.getElementById('comment-' + reviewId).style.display = 'block';
+    }
+    
+    function submitEditReview(reviewId) {
+      // Lấy bình luận đã chỉnh sửa
+      var newComment = document.getElementById('edit-comment-' + reviewId).value.trim();
+    
+      // Kiểm tra nếu bình luận không rỗng
+      if (newComment) {
+        // Gửi request AJAX để cập nhật bình luận
+        $.ajax({
+          type: 'POST',
+          url: '/player/edit_review/' + reviewId + '/',  // Đảm bảo URL đúng
+          data: JSON.stringify({
+            'comment': newComment
+          }),
+          contentType: 'application/json',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': getCookie('csrftoken')  // Lấy CSRF token từ cookie
+          },
+          success: function(response) {
+            if (response.success) {
+              // Cập nhật bình luận trên giao diện
+              document.getElementById('comment-' + reviewId).innerText = newComment;
+              cancelEdit(reviewId);  // Hủy form chỉnh sửa
+            } else {
+              alert('Lỗi: ' + response.error);  // Hiển thị thông báo lỗi
+            }
+          },
+          error: function(xhr, errmsg, err) {
+            alert('Đã xảy ra lỗi: ' + errmsg);  // Hiển thị lỗi
+          }
+        });
+      } else {
+        alert('Bình luận không được rỗng.');
+      }
+    }
+    
+    // Hàm để lấy CSRF token từ cookie
+    function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) == (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+  </script>
+</body>
+</html>
