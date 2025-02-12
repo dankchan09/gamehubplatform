@@ -5,9 +5,9 @@ from .models import Review
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['username', 'address', 'age', 'gender', 'avatar', 'bio'] # Các trường cần cập nhật']
-avatar = forms.ImageField(required=False)  # Nếu có ảnh đại diện mới
-bio = forms.CharField(widget=forms.Textarea, required=False)  # Cập nhật mô tả
+        fields = ['username', 'address', 'age', 'gender', 'avatar', 'bio'] 
+avatar = forms.ImageField(required=False)  
+bio = forms.CharField(widget=forms.Textarea, required=False)  
 
 class ReviewForm(forms.ModelForm):
     class Meta:

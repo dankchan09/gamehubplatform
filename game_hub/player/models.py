@@ -42,8 +42,6 @@ class Payment(models.Model):
     def __str__(self):
         return f"Payment {self.id} - {self.user.username} - {self.status}"
 
-
-# Tự động cập nhật số dư người dùng khi thanh toán được duyệt
 @receiver(post_save, sender=Payment)
 def update_user_balance(sender, instance, **kwargs):
     if instance.status == 'approved':
@@ -52,7 +50,6 @@ def update_user_balance(sender, instance, **kwargs):
         profile.save()
 
 
-# Mô hình Product (Sản phẩm)
 class Product(models.Model):
     CATEGORY_CHOICES = [
         ('adv', 'Adventure'),
@@ -67,7 +64,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.ImageField(upload_to='products/', default='products/default.jpg')
     description = models.TextField(blank=True, null=True)
-    stock = models.IntegerField(default=0)  # Số lượng sản phẩm
+    stock = models.IntegerField(default=0)  
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -85,7 +82,6 @@ class Product(models.Model):
         return 0
 
 
-# Mô hình ProductDetail (Chi tiết sản phẩm)
 class ProductDetail(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='detail')
     additional_info = models.TextField(blank=True, null=True)
@@ -96,7 +92,6 @@ class ProductDetail(models.Model):
         return f"Details of {self.product.name}"
 
 
-# Mô hình Review (Đánh giá sản phẩm)
 class Review(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -109,7 +104,6 @@ class Review(models.Model):
         return f"{self.user.username} - {self.product.name} Review"
 
 
-# Mô hình PlayerProfile (Hồ sơ người chơi)
 class PlayerProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     other_field = models.CharField(max_length=100)
@@ -119,7 +113,6 @@ class PlayerProfile(models.Model):
         return f"Profile of {self.user.username}"
 
 
-# Mô hình Order (Đơn hàng)
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
@@ -133,10 +126,6 @@ class Order(models.Model):
         return f"Order {self.id} - {self.product.name} by {self.user.username}"
 
     def process_order(self):
-        """
-        Xử lý đơn hàng, tính toán và trừ số dư tài khoản nếu có sử dụng số dư.
-        Sau khi đơn hàng được xử lý thành công, thêm sản phẩm vào thư viện người dùng.
-        """
         profile = self.user.profile
         if self.use_balance and profile.balance >= self.total_price:
             profile.balance -= self.total_price  # Trừ số dư tài khoản
@@ -147,7 +136,6 @@ class Order(models.Model):
         else:
             self.status = 'rejected'
         
-        # Nếu đơn hàng được duyệt, thêm sản phẩm vào thư viện
         if self.status == 'approved':
             Library.objects.get_or_create(user=self.user, product=self.product)
 
@@ -156,11 +144,11 @@ class Order(models.Model):
 class Library(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    added_at = models.DateTimeField(default=timezone.now)  # Dùng default thay vì auto_now_add
+    added_at = models.DateTimeField(default=timezone.now)  
 
 
     class Meta:
-        unique_together = ('user', 'product')  # Một sản phẩm chỉ có thể xuất hiện 1 lần trong thư viện của mỗi người dùng
+        unique_together = ('user', 'product')  
 
     def __str__(self):
         return f"{self.user.username} - {self.product.name}"

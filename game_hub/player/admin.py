@@ -67,7 +67,6 @@ class PaymentAdmin(admin.ModelAdmin):
 
 admin.site.register(Payment, PaymentAdmin)
 
-# Quản lý hồ sơ người dùng
 class LibraryAdmin(admin.ModelAdmin):
     list_display = ('user', 'product', 'added_at')
     search_fields = ('user__username', 'product__name')
@@ -75,8 +74,6 @@ class LibraryAdmin(admin.ModelAdmin):
 
 admin.site.register(Library, LibraryAdmin)
 
-# Quản lý hồ sơ người dùng
-# Trong admin.py
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'username', 'age', 'gender', 'formatted_balance', 'library_count')
     search_fields = ('user__username', 'username')
@@ -87,16 +84,15 @@ class ProfileAdmin(admin.ModelAdmin):
     formatted_balance.short_description = "Số dư (VND)"
     
     def library_count(self, obj):
-        return obj.library.count()  # Đảm bảo rằng 'library' là một ManyToManyField
+        return obj.library.count()  
     library_count.short_description = "Số sản phẩm trong thư viện"
 
 admin.site.register(Profile, ProfileAdmin)
 
-# Quản lý đơn hàng
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('user', 'product', 'total_price', 'status', 'created_at')
     list_filter = ('status', 'created_at')
-    actions = ['approve_order', 'cancel_order', 'confirm_purchase_payment']  # Thêm hành động confirm_payment
+    actions = ['approve_order', 'cancel_order', 'confirm_purchase_payment']  
 
     def approve_order(self, request, queryset):
         for order in queryset:
@@ -104,9 +100,8 @@ class OrderAdmin(admin.ModelAdmin):
                 order.status = 'approved'
                 order.save()
 
-                # Cập nhật thư viện người dùng với sản phẩm đã mua
                 user_profile = order.user.profile
-                user_profile.library.add(order.product)  # Giả sử bạn đã thêm thư viện vào Profile model
+                user_profile.library.add(order.product)  
 
                 self.message_user(request, f"Đơn hàng {order.id} đã được duyệt và thêm vào thư viện của {order.user.username}.")
             else:
@@ -132,19 +127,14 @@ class OrderAdmin(admin.ModelAdmin):
                 continue
 
             if order.status == 'pending':
-                # Trừ số tiền từ tài khoản người dùng
                 user_profile = order.user.profile
                 user_profile.balance -= order.total_price
                 user_profile.save()
-
-                # Cập nhật trạng thái đơn hàng thành 'approved'
                 order.status = 'approved'
                 order.save()
 
-                # Thông báo người dùng về giao dịch thành công
                 self.message_user(request, f"Thanh toán của người dùng {order.user.username} đã được duyệt.")
 
-                # Gửi thông báo cho người dùng
                 messages.success(order.user, f"Bạn đã thanh toán thành công {order.total_price} VNĐ cho đơn hàng của mình.")
             else:
                 self.message_user(request, f"Đơn hàng {order.id} không thể duyệt thanh toán.", level="error")

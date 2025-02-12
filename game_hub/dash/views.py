@@ -20,7 +20,6 @@ def login_view(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
 
-            # Kiểm tra xác thực người dùng
             user = authenticate(request, username=username, password=password)
 
             if user is not None:
@@ -28,12 +27,10 @@ def login_view(request):
                 user.last_login = timezone.now()
                 user.save()
                 messages.success(request, 'Đăng nhập thành công!')
-                return redirect('dashboard')  # Đảm bảo redirect đến trang chính sau khi đăng nhập
+                return redirect('dashboard')  
             else:
-                # Xử lý lỗi khi không thể xác thực
                 form.add_error(None, "Tên đăng nhập hoặc mật khẩu không chính xác. Vui lòng thử lại.")
         else:
-            # Nếu form không hợp lệ
             messages.error(request, "Vui lòng kiểm tra lại các thông tin và thử lại.")
     
     else:
@@ -47,9 +44,8 @@ def register(request):
     form = RegisterForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
-            user = form.save()  # Lưu người dùng mới
+            user = form.save()  
             try:
-                # Kiểm tra xem người dùng đã có profile chưa
                 if not hasattr(user, 'playerprofile'):
                     PlayerProfile.objects.create(user=user)
                     messages.success(request, 'Tạo tài khoản thành công! Bạn có thể đăng nhập ngay.')
@@ -58,19 +54,17 @@ def register(request):
             except Exception as e:
                 messages.error(request, f"Lỗi khi tạo profile: {str(e)}")
                 print(f"Error: {e}")
-            return redirect('login')  # Chuyển hướng tới trang đăng nhập
+            return redirect('login')  
         else:
             messages.error(request, 'Đăng ký thất bại. Vui lòng kiểm tra thông tin và thử lại.')
     return render(request, 'dash/register.html', {'form': form})
 
 
 def index(request):
-    # Lấy sản phẩm mới nhất và các sản phẩm khác bạn muốn hiển thị
     top_rated_products = Product.objects.annotate(num_reviews=Count('reviews')).order_by('-num_reviews')[:5]
     newest_products = Product.objects.order_by('-updated_at')[:5]
     cheapest_products = Product.objects.order_by('price')[:5]
     
-    # Truyền dữ liệu vào template
     return render(request, 'dash/guest.html', {
         'top_rated_products': top_rated_products,
         'newest_products': newest_products,
@@ -87,7 +81,6 @@ def product_detail(request, product_id):
     user_profile = request.user.profile  
     has_purchased = Library.objects.filter(user=request.user, product=product).exists()
 
-    # Handle the review form submission
     if request.method == 'POST':
         review_form = ReviewForm(request.POST)
         if review_form.is_valid():
@@ -101,11 +94,9 @@ def product_detail(request, product_id):
     else:
         review_form = ReviewForm()
 
-    # Get reviews and calculate the average rating
     reviews = product.reviews.all()
     average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
     
-    # Ensure that the average rating is set to 0 if there are no reviews
     if average_rating is None:
         average_rating = 0
     

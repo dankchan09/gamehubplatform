@@ -5,6 +5,6 @@ from .models import PlayerProfile
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
-    if created:  # Kiểm tra nếu người dùng mới được tạo
+    if created:  
         if not hasattr(instance, 'playerprofile'):
             PlayerProfile.objects.create(user=instance)
