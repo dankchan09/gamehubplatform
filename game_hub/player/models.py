@@ -52,11 +52,11 @@ def update_user_balance(sender, instance, **kwargs):
 
 class Product(models.Model):
     CATEGORY_CHOICES = [
-        ('adv', 'Adventure'),
-        ('str', 'Strategy'),
-        ('rac', 'Racing'),
-        ('act', 'Action'),
-        ('sim', 'Simulation'),
+        ('adv', 'Phiêu lưu'),
+        ('str', 'Kinh dị'),
+        ('rac', 'Đua xe'),
+        ('act', 'Hành động'),
+        ('sim', 'Giả lập'),
     ]
 
     name = models.CharField(max_length=200)
@@ -64,6 +64,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.ImageField(upload_to='products/', default='products/default.jpg')
     description = models.TextField(blank=True, null=True)
+    game_file = models.FileField(upload_to='game_files/', blank=True, null=True)
     stock = models.IntegerField(default=0)  
     updated_at = models.DateTimeField(auto_now=True)
 

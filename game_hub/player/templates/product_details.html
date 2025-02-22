@@ -18,10 +18,13 @@
   <header class="header-area header-sticky">
     <div class="container">
       <nav class="main-nav">
-        <a href="{% url 'index' %}" class="logo">MyGame</a>
+        <a href="{% url 'dashboard' %}" class="logo">MyGame</a>
         <ul class="nav">
-          <li><a href="{% url 'dashboard' %}">Home</a></li>
-          <li><a href="{% url 'profile' %}">Profile</a></li>
+          <li><a href="{% url 'dashboard' %}">Trang chủ</a></li>
+          <a href="{% url 'profile' %}" class="profile-button flex items-center px-4 py-2 bg-[#FFD700] text-white rounded-full hover:bg-[#FFCC00] transition duration-300">
+            <img src="{% if request.user.profile.avatar %}{{ request.user.profile.avatar.url }}{% else %}{% static 'IMG/man_default.png' %}{% endif %}" alt="Avatar" class="w-12 h-12 rounded-full object-cover mr-3 border-2 border-white">
+            <span class="ml-2 text-xl font-semibold">{{ request.user.profile.balance|format_vnd }}</span>
+        </a>
         </ul>
       </nav>
     </div>
@@ -92,6 +95,11 @@
             <button type="button" id="confirm-purchase-btn" class="btn-add-cart">
               <i class="fa fa-shopping-bag"></i> Mua
             </button>
+            {% if user.is_authenticated %}
+              {% if product in user.library.all %}
+                <a href="{{ product.game_file.url }}" class="btn btn-success">Tải xuống</a>
+              {% endif %}
+            {% endif %}        
           {% endif %}
 
           <div class="star-rating">
@@ -118,13 +126,13 @@
           {% for review in reviews %}
             <div class="review" id="review-{{ review.id }}">
               <div class="review-header">
-                <img src="{% if request.user.profile.avatar %}{{ request.user.profile.avatar.url }}{% else %}{% static 'IMG/man_default.png' %}{% endif %}" alt="Avatar" class="w-12 h-12 rounded-full object-cover mr-3 border-2 border-white">
-                <div class="review-info">
+                <img src="{% if review.user.profile.avatar %}{{ review.user.profile.avatar.url }}{% else %}{% static 'IMG/man_default.png' %}{% endif %}" alt="Avatar" class="w-12 h-12 rounded-full object-cover mr-3 border-2 border-white">
                   <strong>{{ review.user.profile.username }}</strong>
                   <div class="review-stars">
                     {% for i in "12345"|slice:":5" %}
                       <span class="fa {% if i|add:0 <= review.rating %}fa-star{% else %}fa-star-o{% endif %}"></span>
                     {% endfor %}
+                    <div class="review-info"></div>
                   </div>
                 </div>
 
@@ -164,7 +172,7 @@
 
   <footer>
     <div class="container">
-      <p>&copy; {{ current_year }} LUGX Gaming Company. All rights reserved.</p>
+      <p>&copy; {{ current_year }} MyGame Company. All rights reserved.</p>
     </div>
   </footer>
 
@@ -181,13 +189,35 @@
 
   <script>
     // Modal Purchase Confirmation
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(() => {
+          document.querySelectorAll(".notification").forEach(el => {
+              el.classList.remove("show");
+          });
+      }, 2000);
+  });
+  
     document.getElementById("confirm-purchase-btn").addEventListener("click", function() {
       document.getElementById("purchaseModal").style.display = "flex";
     });
 
     document.getElementById("confirmPurchase").addEventListener("click", function() {
-      document.getElementById("purchase-form").submit();
-    });
+      document.getElementById("purchaseModal").style.display = "none"; // Ẩn modal
+      document.getElementById("purchase-form").submit(); // Gửi form
+  
+      // Tạo thông báo thành công
+      const successMessage = document.createElement("div");
+      successMessage.className = "notification success show";
+      successMessage.innerText = "Tải game thành công!";
+      
+      // Thêm vào container thông báo
+      document.querySelector(".notification-container").appendChild(successMessage);
+  
+      // Ẩn thông báo sau 3 giây
+      setTimeout(() => {
+          successMessage.classList.remove("show");
+      }, 3000);
+  });  
 
     document.getElementById("cancelPurchase").addEventListener("click", function() {
       document.getElementById("purchaseModal").style.display = "none";
@@ -244,7 +274,6 @@
           },
           success: function(response) {
             if (response.success) {
-              // Cập nhật bình luận trên giao diện
               document.getElementById('comment-' + reviewId).innerText = newComment;
               cancelEdit(reviewId);  // Hủy form chỉnh sửa
             } else {
@@ -275,6 +304,7 @@
       }
       return cookieValue;
     }
+
   </script>
 </body>
 </html>

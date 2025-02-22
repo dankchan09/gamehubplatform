@@ -12,6 +12,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from player.models import Product, PlayerProfile, Library
 from player.forms import ReviewForm
 from django.db.models import Avg
+from django.http import JsonResponse
 
 def login_view(request):
     if request.method == 'POST':
@@ -61,15 +62,40 @@ def register(request):
 
 
 def index(request):
-    top_rated_products = Product.objects.annotate(num_reviews=Count('reviews')).order_by('-num_reviews')[:5]
-    newest_products = Product.objects.order_by('-updated_at')[:5]
-    cheapest_products = Product.objects.order_by('price')[:5]
+    category_choices = dict(Product.CATEGORY_CHOICES)  # Lấy danh sách thể loại
+    products = Product.objects.annotate(
+        avg_rating=Avg('reviews__rating'),  # Tính điểm đánh giá trung bình
+        review_count=Count('reviews')  # Đếm số lượng đánh giá
+    )  # Lấy tất cả sản phẩm và thêm rating vào
     
     return render(request, 'dash/guest.html', {
-        'top_rated_products': top_rated_products,
-        'newest_products': newest_products,
-        'cheapest_products': cheapest_products,
+        'category_choices': category_choices,
+        'products': products,
     })
+
+def category_view(request, category_key):
+    valid_categories = dict(Product.CATEGORY_CHOICES).keys()
+    if category_key not in valid_categories:
+        return JsonResponse({'error': 'Danh mục không hợp lệ'}, status=400)
+
+    products = Product.objects.filter(category=category_key).annotate(
+        avg_rating=Avg('reviews__rating'),
+        review_count=Count('reviews')
+    )
+
+    # Chuẩn bị dữ liệu trả về
+    products_data = [{
+        'id': product.id,
+        'name': product.name,
+        'description': product.description,
+        'price': product.price,
+        'avg_rating': product.avg_rating,
+        'review_count': product.review_count,
+        'image_url': product.image.url if product.image else None,
+    } for product in products]
+
+    return JsonResponse({'products': products_data})
+
 
 def product_list(request):
     products = Product.objects.all()

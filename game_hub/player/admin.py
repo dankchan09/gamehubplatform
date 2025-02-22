@@ -5,20 +5,26 @@ from django.contrib import messages
 
 # Quản lý sản phẩm
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'price', 'updated_at')  
+    list_display = ('name', 'category', 'price', 'updated_at','game_file_link')  
     search_fields = ('name', 'category')
     list_filter = ('category', 'updated_at')
 
+    def game_file_link(self, obj):
+        if obj.game_file:
+            return f'<a href="{obj.game_file.url}" target="_blank">Tải game</a>'
+        return "Chưa có file"
+    
+    game_file_link.allow_tags = True
+    game_file_link.short_description = "File game"
+
 admin.site.register(Product, ProductAdmin)
 
-# Quản lý chi tiết sản phẩm
 class ProductDetailAdmin(admin.ModelAdmin):
     list_display = ('product', 'additional_info', 'tags')
     search_fields = ('product__name', 'tags')
 
 admin.site.register(ProductDetail, ProductDetailAdmin)
 
-# Quản lý đánh giá sản phẩm
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('product', 'user', 'rating', 'comment', 'created_at', 'updated_at')
     search_fields = ('product__name', 'user__username', 'comment')

@@ -91,7 +91,7 @@ a:hover {
 
 /* Error Messages */
 .error-message {
-    color: #ff4c4c;
+    color: #860000;
     display: none;
     text-align: center;
     margin-bottom: 15px;
@@ -100,7 +100,6 @@ a:hover {
     padding: 10px;
     border-radius: 4px; /* Simplified rounded corners */
 }
-
 /* Back Button */
 .back-button {
     position: absolute;

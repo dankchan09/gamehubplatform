@@ -15,45 +15,6 @@ body {
 }
 
 /* Header */
-header {
-  background-color: #333;  /* Nền tối */
-  color: white;
-  padding: 10px 0;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-header .logo img {
-  width: 150px;
-}
-
-header nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-header nav .nav {
-  display: flex;
-  gap: 20px;
-}
-
-header nav .nav li {
-  list-style-type: none;
-}
-
-header nav .nav li a {
-  color: white;
-  text-decoration: none;
-  padding: 10px;
-  font-weight: bold;
-}
-
-header nav .nav li a:hover {
-  background-color: #555;  /* Nền màu xám nhạt khi hover */
-  border-radius: 5px;
-}
 
 /* Product Section */
 .single-product {
@@ -160,7 +121,7 @@ header nav .nav li a:hover {
   background-color: rgba(0, 0, 0, 0.7);
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 9999;  /* Modal luôn hiển thị trên cùng */
 }
 
 .modal-content {
@@ -242,14 +203,13 @@ header nav .nav li a:hover {
   border-bottom: 1px solid #ccc;
   padding: 20px 0;
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
   position: relative;
 }
 
 .review-header {
   display: flex;
-  align-items: center;
+  align-items: left;
 }
 
 .review-header img {
@@ -268,14 +228,26 @@ header nav .nav li a:hover {
   font-size: 18px;
 }
 
-.review-info .review-stars {
-  display: flex;
+.review-stars {
+  display: flex; /* Đảm bảo sao nằm ngang */
+  align-items: center;
+  gap: 3px; /* Khoảng cách giữa các sao */
+  color: #f8b400;
+  flex-direction: left;
+  padding-bottom: 20px;
+
+}
+
+.review-content {
+  margin-top: 5px;
+  
 }
 
 .review-actions {
   position: absolute;
   bottom: 10px;
   right: 10px;
+  z-index: 100;  /* Đảm bảo các hành động không bị che khuất */
 }
 
 .more-options-btn {
@@ -296,7 +268,7 @@ header nav .nav li a:hover {
   border: 1px solid #ccc;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 10px;
-  z-index: 10;
+  z-index: 999;  /* Đảm bảo phần tử này không bị che */
 }
 
 .review-options.show-options {
@@ -327,16 +299,17 @@ header nav .nav li a:hover {
 
 .notification {
   background-color: #f8f8f8;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  padding: 30px;
+  position: relative;
+  margin-bottom: 50px;
+  border-radius: 20px;
   display: none;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
 
 .notification.show {
-  display: block;
+  display: flex;
   opacity: 1;
 }
 
@@ -385,7 +358,6 @@ header nav .nav li a:hover {
   background-color: #c82333;
 }
 
-/* Mobile Responsiveness */
 @media (max-width: 768px) {
   .product-container {
     flex-direction: column;
@@ -429,3 +401,83 @@ header nav .nav li a:hover {
   }
 }
 
+.header-area {
+  background: #222;
+  padding: 1px 0;
+  position: relative;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+}
+
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #FFD700;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.logo:hover {
+  color: #FFCC00;
+}
+
+.nav {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav li {
+  display: inline-block;
+}
+
+.nav a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.nav a:hover {
+  background: #FFD700;
+  color: #222;
+}
+
+.profile-button {
+  display: flex;
+  align-items: center;
+  background: #FFD700;
+  padding: 8px 12px;
+  border-radius: 50px;
+  transition: background 0.3s;
+}
+
+.profile-button:hover {
+  background: #FFCC00;
+}
+
+.profile-button img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+.profile-button span {
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}

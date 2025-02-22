@@ -28,7 +28,7 @@
                     <a href="{% url 'dashboard' %}">Trang chủ</a>
                     {% if user.is_authenticated %}
                     <div class="button-container">
-                        <a href="{% url 'add_fund' %}" class="btn naptien-btn">Nạp tiền</a>
+                        <a href="{% url 'add_fund' %}" class="btn btn-primary">Nạp tiền</a>
                     </div>
                     {% endif %}
                 </nav>
@@ -81,14 +81,9 @@
             </div>
 
             <div class="profile-actions text-center">
-                <a href="{% url 'update_profile' %}" class="update-button">Cập nhật thông tin</a>
-            </div>
-
-            {% if user.is_authenticated %}
-            <div class="profile-actions text-center">
-                <a href="{% url 'logout' %}" class="btn btn-danger logout-button">Đăng xuất</a>
-            </div>
-            {% endif %}
+                <a href="{% url 'update_profile' %}" class="btn btn-secondary">Cập nhật thông tin</a>
+                <a href="{% url 'logout' %}" class="btn btn-danger">Đăng xuất</a>
+            </div>            
         </div>
     </div>
     <!-- ***** Profile Section End ***** -->
@@ -105,6 +100,14 @@
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(() => {
+                document.querySelectorAll(".alert").forEach(el => {
+                    el.classList.add("hide");
+                });
+            }, 3000);
+        });
+
         // Format the input value as VNĐ with commas
         document.getElementById("amount").addEventListener("input", function (e) {
             let value = e.target.value.replace(/\D/g, ''); // Remove all non-numeric characters
@@ -113,7 +116,7 @@
         });
 
         // Optional: Before form submission, remove commas from the amount field
-        document.querySelector("form").addEventListener("submit", function() {
+        document.querySelector("form").addEventListener("submit", function () {
             let amountInput = document.getElementById("amount");
             let amountValue = amountInput.value.replace(/,/g, ''); // Remove commas
             amountInput.value = amountValue;
@@ -124,7 +127,7 @@
         });
 
         // Simulate admin approval process
-        setTimeout(function() {
+        setTimeout(function () {
             // Hide loading message and show success message
             document.getElementById("loading-message").style.display = 'none';
             document.getElementById("success-message").style.display = 'block';

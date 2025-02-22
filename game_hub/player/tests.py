@@ -15,7 +15,7 @@ class ProfileViewTest(TestCase):
         response = self.client.get(reverse('profile'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'profile.html')
-        self.assertContains(response, 'Cập nhật thông tin')  # Cập nhật tại đây
+        self.assertContains(response, 'Cập nhật thông tin')  
 
     def test_update_profile(self):
         response = self.client.get(reverse('profile_update'))

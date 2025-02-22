@@ -1,105 +1,198 @@
-/* Thư viện */
+/* Định dạng chung */
 html, body {
     height: 100%;
     margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
 }
 
-.library-title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--accent-color);
-    margin-bottom: 30px;
-    text-align: center;
+/* Header full width */
+.header {
+    width: 100%;
+    background-color: white;
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: fixed; /* Giữ header cố định trên cùng */
+    top: 0;
+    left: 0;
+    z-index: 1000;
 }
 
-.library-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 30px;
-    padding: 0 20px;
-    flex-grow: 1;
-}
-
-.library-item {
-    background-color: var(--primary-color);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Căn giữa nội dung header */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
 }
 
-.library-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+/* Navbar */
+.nav-container {
+    display: flex;
+    align-items: center;
 }
 
-.product-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 20px;
+.nav-links ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
 }
 
-.product-info {
+.nav-links ul li {
+    margin-right: 20px;
+}
+
+.nav-links ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+
+.nav-links ul li a:hover {
+    background-color: #e0e0e0;
+}
+
+/* Profile */
+.profile-button {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 2px solid #ddd;
+}
+
+.balance {
+    font-weight: bold;
+    color: #ff9800;
+}
+
+/* Điều chỉnh khoảng cách nội dung để không bị che bởi header */
+.main-content {
+    margin-top: 80px; /* Điều chỉnh theo chiều cao của header */
+}
+
+/* Nội dung chính */
+.content {
     text-align: center;
+    padding: 50px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
 }
 
-.product-name {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 10px;
-}
-
-.product-description {
-    font-size: 1rem;
-    color: #ecf0f1;
+.title {
+    font-size: 24px;
+    font-weight: bold;
     margin-bottom: 20px;
 }
 
-.play-now-btn {
-    background-color: var(--accent-color);
-    color: #fff;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+.no-product-message {
+    font-size: 18px;
+    color: #666;
+    margin-top: 10px;
 }
 
-.play-now-btn:hover {
-    background-color: #e67e22;
+/* Grid hiển thị sản phẩm */
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Card sản phẩm */
+.product-card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    width: 250px;
+}
+
+.product-card:hover {
     transform: scale(1.05);
 }
 
-/* Thông báo không có sản phẩm */
-.no-products {
-    font-size: 1.2rem;
-    color: var(--text-color);
-    text-align: center;
-    padding: 20px;
-    background-color: var(--background-color);
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+/* Ảnh sản phẩm */
+.product-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Tiêu đề sản phẩm */
+.product-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Mô tả sản phẩm */
+.product-description {
+    font-size: 14px;
+    color: #666;
+    margin: 10px 0;
+}
+
+/* Nút Chơi Ngay */
+.play-button {
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.play-button:hover {
+    background-color: #e68900;
+}
+
+/* Khi không có sản phẩm */
+.empty-message {
+    font-size: 18px;
+    color: #888;
+    margin-top: 30px;
 }
 
 /* Footer */
-footer {
-    background-color: var(--primary-color);
-    color: #fff;
+.footer {
+    background-color: #333;
+    color: white;
     text-align: center;
-    padding: 20px;
+    padding: 10px 0;
+    font-size: 14px;
     margin-top: auto;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-    position: relative;
-    bottom: 0;
-    width: 100%;
+}
+
+/* Định dạng emoji */
+.footer .emoji {
+    font-size: 16px;
+    display: inline-block;
+    margin-left: 5px;
 }

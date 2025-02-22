@@ -1,158 +1,102 @@
-/* Reset default styles */
-* {
+/* Reset cơ bản */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f7f7f7;
-    color: #333;
-}
-
-/* Navbar styles */
+/* Navbar */
 .navbar {
-    background: #f1f1f1; /* Light gray background */
-    padding: 10px 0;
+    background: white;
+    border-bottom: 2px solid #e0e0e0;
+    padding: 15px 30px;
 }
-
-.navbar .navbar-brand {
-    color: #333;
+.navbar a {
+    text-decoration: none;
+    color: black;
     font-weight: bold;
-    font-size: 1.4rem;
+    margin: 0 15px;
+}
+.navbar a:hover {
+    color: #28a745;
 }
 
-.navbar-nav .nav-link {
-    color: #333;
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin-left: 20px;
+/* Thanh tìm kiếm */
+.search-bar {
+    border: 1px solid #ddd;
+    padding: 8px;
+    border-radius: 5px;
+    width: 250px;
 }
 
-.navbar-nav .nav-link:hover {
-    color: #007bff; /* Highlight on hover */
-}
-
-/* Navbar responsiveness */
-@media (max-width: 768px) {
-    .navbar .navbar-brand {
-        font-size: 1.2rem;
-    }
-  
-    .navbar-nav .nav-link {
-        font-size: 1rem;
-        margin-left: 10px;
-    }
-}
-
-/* Page content styles */
-.container {
-    margin-top: 40px;
-}
-
-h2 {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #333;
-}
-
-.card {
-    background-color: #fff;
-    border-radius: 12px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Danh mục sản phẩm */
+.category-buttons {
+    display: flex;
+    gap: 10px;
     padding: 20px;
-    margin-bottom: 20px;
 }
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #333;
-}
-
-.form-control {
-    font-size: 1rem;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px; /* Rounded corners */
-    width: 100%;
-    margin-top: 8px;
-}
-
-.btn {
-    font-size: 1.2rem;
-    font-weight: bold;
-    padding: 12px;
-    border-radius: 20px; /* Rounded button edges */
-    transition: background-color 0.3s;
-    border: none;
-}
-
-.btn-success {
+.category-buttons .btn {
     background-color: #28a745;
-    color: #fff;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
 }
-
-.btn-success:hover {
+.category-buttons .btn:hover {
     background-color: #218838;
 }
 
-.btn-secondary {
-    background-color: #6c757d;
-    color: #fff;
+/* Danh sách sản phẩm */
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
 }
-
-.btn-secondary:hover {
-    background-color: #5a6268;
-}
-
-.text-center {
+.product-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: 220px;
     text-align: center;
 }
-
-.mt-3 {
-    margin-top: 20px;
+.product-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 10px;
 }
-
-.mt-5 {
-    margin-top: 40px;
+.product-card h3 {
+    font-size: 18px;
+    margin: 10px 0;
 }
-
-p {
-    font-size: 1rem;
-    color: #555;
+.product-card p {
+    font-size: 14px;
+    color: #777;
 }
-
-strong {
+.product-card .price {
+    font-size: 16px;
     font-weight: bold;
-    color: #333;
+    color: #28a745;
 }
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .container {
-        margin-top: 20px;
-    }
-
-    .card {
-        padding: 15px;
-    }
-
-    h2 {
-        font-size: 1.6rem;
-    }
-
-    .form-control {
-        font-size: 0.9rem;
-    }
-
-    .btn {
-        font-size: 1rem;
-        padding: 10px;
-    }
+.product-card .rating {
+    font-size: 14px;
+    color: #f39c12;
+}
+.product-card .btn {
+    background-color: #ff9800;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    display: block;
+    text-decoration: none;
+    margin-top: 10px;
+}
+.product-card .btn:hover {
+    background-color: #e68900;
 }

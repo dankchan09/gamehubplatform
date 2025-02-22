@@ -1,0 +1,25 @@
+{% extends "admin/base.html" %}
+
+{% block title %} Quản trị hệ thống | {{ block.super }} {% endblock %}
+
+{% block branding %}
+    <h1 style="color: gold;">Admin Panel Tùy Chỉnh</h1>
+{% endblock %}
+
+{% block extrastyle %}
+<style>
+    body {
+        background: #222;
+        color: white;
+    }
+    #header {
+        background: black;
+        padding: 15px;
+    }
+    .module h2 {
+        background: #444;
+        color: gold;
+        padding: 10px;
+    }
+</style>
+{% endblock %}

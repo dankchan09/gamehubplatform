@@ -2,17 +2,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Count, Avg
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse, Http404, FileResponse
 from .models import Profile, Product, Review, Payment, Order, Library
 from .forms import ProfileUpdateForm, ReviewForm
 import json
-from django.views.decorators.csrf import csrf_exempt
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.db import transaction
 from django.contrib.auth import logout
+from django.conf import settings
+import os
+from django.http import JsonResponse
 
 
 def format_vnd(value):
@@ -40,18 +42,43 @@ def update_profile(request):
 
     return render(request, 'profile_update.html', {'form': form})
 
-def dashboard(request):
-    top_rated_products = Product.objects.annotate(avg_rating=Avg('reviews__rating')).order_by('-avg_rating')[:5]
-    
-    newest_products = Product.objects.order_by('-updated_at')[:5]
-    
-    cheapest_products = Product.objects.order_by('price')[:5]
+from django.db.models import Avg, Count
 
+def dashboard(request):
+    category_choices = dict(Product.CATEGORY_CHOICES)  # Lấy danh sách thể loại
+    products = Product.objects.annotate(
+        avg_rating=Avg('reviews__rating'),  # Tính điểm đánh giá trung bình
+        review_count=Count('reviews')  # Đếm số lượng đánh giá
+    )  # Lấy tất cả sản phẩm và thêm rating vào
+    
     return render(request, 'base.html', {
-        'top_rated_products': top_rated_products,
-        'newest_products': newest_products,
-        'cheapest_products': cheapest_products,
+        'category_choices': category_choices,
+        'products': products,
     })
+
+def category_view(request, category_key):
+    valid_categories = dict(Product.CATEGORY_CHOICES).keys()
+    if category_key not in valid_categories:
+        return JsonResponse({'error': 'Danh mục không hợp lệ'}, status=400)
+
+    products = Product.objects.filter(category=category_key).annotate(
+        avg_rating=Avg('reviews__rating'),
+        review_count=Count('reviews')
+    )
+
+    # Chuẩn bị dữ liệu trả về
+    products_data = [{
+        'id': product.id,
+        'name': product.name,
+        'description': product.description,
+        'price': product.price,
+        'avg_rating': product.avg_rating,
+        'review_count': product.review_count,
+        'image_url': product.image.url if product.image else None,
+    } for product in products]
+
+    return JsonResponse({'products': products_data})
+
 
 @login_required(login_url='dash:login')
 def product_detail(request, product_id):
@@ -212,7 +239,7 @@ def confirm_purchase(request, product_id):
 def search_suggestions(request):
     query = request.GET.get('q', '')
     if query:
-        products = Product.objects.filter(name__icontains=query)
+        products = Product.objects.filter(name__icontains=query)[:5]
         suggestions = [{'id': product.id, 'name': product.name} for product in products]
         return JsonResponse(suggestions, safe=False)
     return JsonResponse([], safe=False)
@@ -254,7 +281,18 @@ def purchase_product(request, product_id):
         Library.objects.get_or_create(user=request.user, product=product)
 
     messages.success(request, "Mua hàng thành công! Sản phẩm đã được thêm vào thư viện.")
+
+    # Kiểm tra nếu game có file để tải
+    if product.game_file:
+        game_file_path = os.path.join(settings.MEDIA_ROOT, str(product.game_file))
+        if os.path.exists(game_file_path):
+            return FileResponse(open(game_file_path, 'rb'), as_attachment=True, filename=os.path.basename(game_file_path))
+        else:
+            messages.error(request, "Lỗi: File game không tồn tại!")
+    
     return redirect('product_detail', product_id=product.id)
+
+
 
 def user_logout(request):
     logout(request)  
@@ -271,3 +309,18 @@ def index(request):
         'newest_products': newest_products,
         'cheapest_products': cheapest_products,
     })
+
+
+def download_game(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    if product.game_file:  # Kiểm tra xem game có file không
+        game_file_path = os.path.join(settings.MEDIA_ROOT, str(product.game_file))
+        if os.path.exists(game_file_path):
+            return FileResponse(open(game_file_path, 'rb'), as_attachment=True, filename=os.path.basename(game_file_path))
+        else:
+            messages.error(request, "Lỗi: File game không tồn tại!")
+    else:
+        messages.error(request, "Lỗi: Sản phẩm này không có file game!")
+
+    return redirect('library')  # Chuyển hướng về thư viện nếu có lỗi
