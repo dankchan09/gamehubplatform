@@ -81,12 +81,8 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mydatabase',
-        'USER': 'root',
-        'PASSWORD': '0947216151a@',
-        'HOST': '127.0.0.1',
-        'PORT': '3306'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
